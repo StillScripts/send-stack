@@ -1,4 +1,4 @@
-import { app } from "@/app/(server)/api";
+import { app } from "@/app/(server)/server";
 
 // Never cache this api, cache only on the frontend
 export const dynamic = "force-dynamic";
