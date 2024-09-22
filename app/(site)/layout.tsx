@@ -3,5 +3,5 @@ export default function SiteLayout({
 }: {
 	children: React.ReactNode
 }) {
-	return <div className="p-12">{children}</div>
+	return <div className="bg-background p-12">{children}</div>
 }
