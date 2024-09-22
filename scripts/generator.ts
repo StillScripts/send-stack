@@ -123,7 +123,7 @@ export const ${modelName}Router = new Elysia({ prefix })
 		}
 	)`;
 
-  const filePath = path.join("app/(server)/routes", `${modelName}.ts`);
+  const filePath = path.join("app/(server)/routers", `${modelName}.ts`);
   try {
     await fs.writeFile(filePath, fileContent);
     console.log(`Generated route file: ${filePath}`);
