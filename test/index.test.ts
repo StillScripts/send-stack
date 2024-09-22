@@ -8,6 +8,6 @@ describe("Elysia", () => {
       .handle(new Request("http://localhost/api"))
       .then((res) => res.text());
 
-    expect(response).toBe("hello Next");
+    expect(response).toBe("THE SEND STACK");
   });
 });
