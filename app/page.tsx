@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { client } from "./(site)/client";
+// add ShadCN
 
 export default async function Home() {
   const { data } = await client.api.index.get();
