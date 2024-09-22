@@ -1,21 +1,29 @@
 import { capitalize } from '@/lib/utils'
 
-export const routerTemplate = (modelName: string) => {
+export const controllerTemplate = (modelName: string) => {
 	const ModelName = capitalize(modelName)
-	return `import { Elysia, t } from 'elysia'
-
-import { ${modelName} } from '@/db/schema'
+	return `import { movies } from '@/db/schema'
 import BaseController from '@/lib/base-controller'
 
-const prefix = '/${modelName}'
+export const prefix = '/movies'
 const frontendPrefix = prefix
 
-/** Control how the application can interact with the \`${modelName}\` model */
-class ${ModelName}Controller extends BaseController<typeof ${modelName}> {
+export class ${ModelName}Controller extends BaseController<typeof ${modelName}> {
 	constructor() {
 		super(${modelName}, frontendPrefix)
 	}
 }
+`
+}
+
+export const routerTemplate = (modelName: string) => {
+	const ModelName = capitalize(modelName)
+	return `import { Elysia, t } from 'elysia'
+
+import {
+	MoviesController,
+	prefix
+} from '@/app/(server)/controllers/movies.controller'
 
 export const ${modelName}Router = new Elysia({ prefix })
 	.decorate({

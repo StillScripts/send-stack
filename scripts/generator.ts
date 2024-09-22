@@ -1,7 +1,7 @@
 import { capitalize } from '@/lib/utils'
 import { promises as fs } from 'fs'
 import path from 'path'
-import { routerTemplate } from './generator/templates'
+import { controllerTemplate, routerTemplate } from './generator/templates'
 
 // Function to check if a model exists in the schema file
 async function checkTable(modelName: string) {
@@ -20,12 +20,26 @@ async function checkTable(modelName: string) {
 
 // Function to generate a new route file based on a model name
 async function generateRouteFile(modelName: string) {
-	const filePath = path.join('app/(server)/routers', `${modelName}.ts`)
+	const filePath = path.join('app/(server)/routers', `${modelName}.router.ts`)
 	try {
 		await fs.writeFile(filePath, routerTemplate(modelName))
 		console.log(`Generated route file: ${filePath}`)
 	} catch (error) {
-		console.error(`Error generating file for ${modelName}:`, error)
+		console.error(`Error generating router file for ${modelName}:`, error)
+	}
+}
+
+// Function to generate a new route file based on a model name
+async function generateControllerFile(modelName: string) {
+	const filePath = path.join(
+		'app/(server)/controllers',
+		`${modelName}.controller.ts`
+	)
+	try {
+		await fs.writeFile(filePath, controllerTemplate(modelName))
+		console.log(`Generated controller file: ${filePath}`)
+	} catch (error) {
+		console.error(`Error generating controller file for ${modelName}:`, error)
 	}
 }
 
@@ -41,6 +55,7 @@ if (!modelName) {
 ;(async () => {
 	const modelExists = await checkTable(modelName)
 	if (modelExists) {
+		await generateControllerFile(modelName)
 		await generateRouteFile(modelName)
 	} else {
 		console.log(`Model "${modelName}" does not exist in schema.`)
