@@ -17,7 +17,7 @@ export default async function Home() {
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						By&nsbp;
+						By&nbsp;
 						<Image
 							src="/vercel.svg"
 							alt="Vercel Logo"

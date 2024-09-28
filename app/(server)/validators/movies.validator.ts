@@ -1,17 +1,16 @@
-import { Type } from '@sinclair/typebox'
 import { InferSelectModel } from 'drizzle-orm'
+import { createSelectSchema } from 'drizzle-typebox'
 import { t } from 'elysia'
 
 import { movies } from '@/db/schema'
 
+import { withoutId } from '@/lib/utils'
+
 export type Movie = InferSelectModel<typeof movies>
 
-export const moviesBackendSchema = t.Object({
-	title: t.String(),
-	releaseYear: t.Number()
-})
+export const moviesBackendSchema = withoutId(createSelectSchema(movies))
 
-export const moviesFrontendSchema = Type.Object({
-	title: Type.String(),
-	releaseYear: Type.String()
+export const moviesFrontendSchema = t.Object({
+	title: t.String(),
+	releaseYear: t.String()
 })
