@@ -1,7 +1,7 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { customAlphabet } from "nanoid";
 import { Omit, type TObject } from "@sinclair/typebox";
+import { type ClassValue,clsx } from "clsx";
+import { customAlphabet } from "nanoid";
+import { twMerge } from "tailwind-merge";
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));

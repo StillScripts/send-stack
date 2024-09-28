@@ -1,5 +1,6 @@
-import { client } from '@/app/(site)/client'
 import { notFound } from 'next/navigation'
+
+import { client } from '@/app/(site)/client'
 import { MovieForm } from '@/app/(site)/movies/_components/movie-form'
 
 export const metadata = {

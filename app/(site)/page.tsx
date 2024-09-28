@@ -1,4 +1,5 @@
 import Image from 'next/image'
+
 import { client } from './client'
 
 export default async function Home() {

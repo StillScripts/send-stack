@@ -1,7 +1,7 @@
 'use client'
+import { useCallback } from 'react'
 import type { Route } from 'next'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 
 export const useErrorOrRedirect = () => {
 	const router = useRouter()

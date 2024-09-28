@@ -1,6 +1,8 @@
+import Link from 'next/link'
+
 import { client } from '@/app/(site)/client'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+
 import { MovieCard } from './_components/movie-card'
 
 export const metadata = {

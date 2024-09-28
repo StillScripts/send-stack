@@ -1,8 +1,15 @@
 'use client'
 import { useForm } from 'react-hook-form'
+
 import { typeboxResolver } from '@hookform/resolvers/typebox'
 import { Static } from '@sinclair/typebox'
 import { TypeCompiler } from '@sinclair/typebox/compiler'
+
+import {
+	type Movie,
+	moviesFrontendSchema
+} from '@/app/(server)/validators/movies.validator'
+import { client } from '@/app/(site)/client'
 import {
 	FormControl,
 	FormField,
@@ -10,13 +17,9 @@ import {
 	FormLabel,
 	FormMessage
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { FormCard } from '@/components/ui/form-card'
-import {
-	type Movie,
-	moviesFrontendSchema
-} from '@/app/(server)/validators/movies.validator'
-import { client } from '@/app/(site)/client'
+import { Input } from '@/components/ui/input'
+
 import { useErrorOrRedirect } from '@/lib/hooks/use-error-or-redirect'
 
 const schema = moviesFrontendSchema

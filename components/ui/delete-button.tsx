@@ -1,4 +1,6 @@
 'use client'
+import { useRouter } from 'next/navigation'
+
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -11,7 +13,6 @@ import {
 	AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Button, type ButtonProps } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
 
 export function DeleteButton({
 	buttonProps,

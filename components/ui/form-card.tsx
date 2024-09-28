@@ -1,5 +1,5 @@
 import { UseFormReturn } from 'react-hook-form'
-import { Form } from '@/components/ui/form'
+
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -9,6 +9,8 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/components/ui/card'
+import { Form } from '@/components/ui/form'
+
 import { PendingButton } from './pending-button'
 
 export function FormCard<T extends object>({

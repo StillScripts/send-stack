@@ -1,6 +1,9 @@
 'use client'
 
+import Link from 'next/link'
+
 import type { Movie } from '@/app/(server)/validators/movies.validator'
+import { client } from '@/app/(site)/client'
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -10,8 +13,6 @@ import {
 	CardTitle
 } from '@/components/ui/card'
 import { DeleteButton } from '@/components/ui/delete-button'
-import Link from 'next/link'
-import { client } from '@/app/(site)/client'
 
 export const MovieCard = ({ movie }: { movie: Movie }) => {
 	return (
