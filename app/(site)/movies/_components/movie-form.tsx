@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input'
 import { FormCard } from '@/components/ui/form-card'
 import { moviesFrontendSchema } from '@/app/(server)/validators/movies.validator'
 import { client } from '@/app/(site)/client'
+import { useErrorOrRedirect } from '@/lib/hooks/use-error-or-redirect'
 
 const schema = moviesFrontendSchema
 const typecheck = TypeCompiler.Compile(schema)
@@ -24,16 +25,17 @@ export const MovieForm = ({}: {
 		Awaited<ReturnType<typeof client.api.movies.index.get>>['data']
 	>[number]
 }) => {
+	const { handleResponse } = useErrorOrRedirect()
 	const form = useForm<FormFields>({
 		resolver: typeboxResolver(typecheck)
 	})
 
 	const onSubmit = async (data: FormFields) => {
-		await client.api.movies.index.post({
+		const { error } = await client.api.movies.index.post({
 			...data,
 			releaseYear: parseInt(data.releaseYear)
 		})
-		alert('new movie created')
+		handleResponse(error, '/movies')
 	}
 
 	return (
