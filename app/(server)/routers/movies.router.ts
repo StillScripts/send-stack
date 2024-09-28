@@ -19,7 +19,7 @@ export const moviesRouter = new Elysia({ prefix })
 	.post(
 		'/',
 		async ({ MoviesController, body }) => {
-			return await MoviesController.create(body)
+			await MoviesController.create(body)
 		},
 		{
 			body: moviesBackendSchema

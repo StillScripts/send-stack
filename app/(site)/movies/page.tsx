@@ -1,14 +1,11 @@
 import { client } from '@/app/(site)/client'
 import { Button } from '@/components/ui/button'
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle
-} from '@/components/ui/card'
 import Link from 'next/link'
 import { MovieCard } from './_components/movie-card'
+
+export const metadata = {
+	title: 'Movies'
+}
 
 export default async function MoviesPage() {
 	const { data, error } = await client.api.movies.index.get()

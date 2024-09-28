@@ -48,7 +48,7 @@ class BaseController<
 			.where(eq(this.model.id, id))
 			.returning()
 		revalidatePath(this.prefix)
-		revalidatePath(`${this.prefix}/${id}/edit`)
+		revalidatePath(`${this.prefix}/edit/${id}`)
 		return result
 	}
 
@@ -58,6 +58,7 @@ class BaseController<
 			.where(eq(this.model.id, id))
 			.returning()
 		revalidatePath(this.prefix)
+		revalidatePath(`${this.prefix}/edit/${id}`)
 		return result
 	}
 }

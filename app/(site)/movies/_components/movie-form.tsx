@@ -23,18 +23,37 @@ const schema = moviesFrontendSchema
 const typecheck = TypeCompiler.Compile(schema)
 type FormFields = Static<typeof schema>
 
+/**
+ * Form for creating a new movie or editing an existing one
+ * @param movie - The movie being edited (optional)
+ * */
 export const MovieForm = ({ movie }: { movie?: Movie }) => {
 	const { handleResponse } = useErrorOrRedirect()
 	const form = useForm<FormFields>({
-		resolver: typeboxResolver(typecheck)
+		resolver: typeboxResolver(typecheck),
+		defaultValues: {
+			title: movie?.title ?? '',
+			releaseYear: movie?.releaseYear ? `${movie.releaseYear}` : ''
+		}
 	})
 
+	/**
+	 * Handle updating an existing action if the movie exists already,
+	 * or create a new movie. Redirect to `/movies` if action was successful.
+	 * @param data - User data from the form
+	 */
 	const onSubmit = async (data: FormFields) => {
-		const { error } = await client.api.movies.index.post({
+		const payload = {
 			...data,
 			releaseYear: parseInt(data.releaseYear)
-		})
-		handleResponse(error, '/movies')
+		}
+		if (movie?.id) {
+			const { error } = await client.api.movies({ id: movie.id }).patch(payload)
+			handleResponse(error, '/movies')
+		} else {
+			const { error } = await client.api.movies.index.post(payload)
+			handleResponse(error, '/movies')
+		}
 	}
 
 	return (
@@ -42,7 +61,7 @@ export const MovieForm = ({ movie }: { movie?: Movie }) => {
 			form={form}
 			onSubmit={onSubmit}
 			title="Create New Movie"
-			className="max-w-96"
+			className="mx-auto my-8 max-w-96"
 		>
 			<div className="space-y-6">
 				<FormField

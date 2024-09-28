@@ -9,6 +9,7 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/components/ui/card'
+import { PendingButton } from './pending-button'
 
 export function FormCard<T extends object>({
 	children,
@@ -36,7 +37,7 @@ export function FormCard<T extends object>({
 					)}
 					<CardContent>{children}</CardContent>
 					<CardFooter>
-						<Button type="submit">Submit</Button>
+						<PendingButton>Submit</PendingButton>
 					</CardFooter>
 				</Card>
 			</form>
