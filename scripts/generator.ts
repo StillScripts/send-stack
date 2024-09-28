@@ -19,8 +19,11 @@ async function checkTable(modelName: string) {
 }
 
 // Function to generate a new route file based on a model name
-async function generateRouteFile(modelName: string) {
-	const filePath = path.join('app/(server)/routers', `${modelName}.router.ts`)
+export async function generateRouterFile(
+	modelName: string,
+	basePath = 'app/(server)/routers'
+) {
+	const filePath = path.join(basePath, `${modelName}.router.ts`)
 	try {
 		await fs.writeFile(filePath, routerTemplate(modelName))
 		console.log(`Generated route file: ${filePath}`)
@@ -30,11 +33,11 @@ async function generateRouteFile(modelName: string) {
 }
 
 // Function to generate a new route file based on a model name
-async function generateControllerFile(modelName: string) {
-	const filePath = path.join(
-		'app/(server)/controllers',
-		`${modelName}.controller.ts`
-	)
+export async function generateControllerFile(
+	modelName: string,
+	basePath = 'app/(server)/controllers'
+) {
+	const filePath = path.join(basePath, `${modelName}.controller.ts`)
 	try {
 		await fs.writeFile(filePath, controllerTemplate(modelName))
 		console.log(`Generated controller file: ${filePath}`)
@@ -43,22 +46,24 @@ async function generateControllerFile(modelName: string) {
 	}
 }
 
-// Extract the model name from the command line argument
-const modelName = process.argv[2]?.replace('-', '')
-
-if (!modelName) {
-	console.error('Please provide a model name to check.')
-	process.exit(1)
-}
-
 // Check if the model exists and then generate the route file
 const run = async () => {
+	// Extract the model name from the command line argument
+	const modelName = process.argv[2]?.replace('-', '')
+
+	if (!modelName) {
+		console.error('Please provide a model name to check.')
+		process.exit(1)
+	}
+
 	const modelExists = await checkTable(modelName)
 	if (modelExists) {
 		await generateControllerFile(modelName)
-		await generateRouteFile(modelName)
+		await generateRouterFile(modelName)
 	} else {
 		console.log(`Model "${modelName}" does not exist in schema.`)
 	}
 }
-await run()
+if (process.env.NODE_ENV !== 'test') {
+	await run()
+}

@@ -25,7 +25,7 @@ import {
 	${ModelName}Controller,
 	prefix
 } from '@/app/(server)/controllers/${modelName}.controller'
- import { ${modelName}BackendSchema } from '@/app/(server)/validators/${modelName}.validator'
+import { ${modelName}BackendSchema } from '@/app/(server)/validators/${modelName}.validator'
 
 export const ${modelName}Router = new Elysia({ prefix })
 	.decorate({

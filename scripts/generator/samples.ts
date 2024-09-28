@@ -1,4 +1,17 @@
-import { Elysia, t } from 'elysia'
+export const controllerSample = `import { movies } from '@/db/schema'
+
+import BaseController from './base.controller'
+
+export const prefix = '/movies'
+const frontendPrefix = prefix
+
+export class MoviesController extends BaseController<typeof movies> {
+	constructor() {
+		super(movies, frontendPrefix)
+	}
+}`
+
+export const routerSample = `import { Elysia, t } from 'elysia'
 
 import {
 	MoviesController,
@@ -37,3 +50,4 @@ export const moviesRouter = new Elysia({ prefix })
 	.delete('/:id', async ({ MoviesController, params: { id } }) => {
 		await MoviesController.delete(id)
 	})
+`
