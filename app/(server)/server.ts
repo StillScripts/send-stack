@@ -1,7 +1,7 @@
+import swagger from '@elysiajs/swagger'
 import { Elysia } from 'elysia'
 
-import swagger from '@elysiajs/swagger'
-import { moviesRouter } from './routers/movies.router'
+import { moviesRouter } from '@/app/(server)/routers/movies.router'
 
 export const app = new Elysia({ prefix: '/api' })
 	.use(swagger())
