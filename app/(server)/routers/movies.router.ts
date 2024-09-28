@@ -4,7 +4,7 @@ import {
 	MoviesController,
 	prefix
 } from '@/app/(server)/controllers/movies.controller'
-import { moviesBackendSchema } from '@/app/(server)/validators/movies.validator'
+ import { moviesBackendSchema } from '@/app/(server)/validators/movies.validator'
 
 export const moviesRouter = new Elysia({ prefix })
 	.decorate({

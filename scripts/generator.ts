@@ -1,6 +1,6 @@
-import { capitalize } from '@/lib/utils'
 import { promises as fs } from 'fs'
 import path from 'path'
+
 import { controllerTemplate, routerTemplate } from './generator/templates'
 
 // Function to check if a model exists in the schema file
@@ -52,7 +52,7 @@ if (!modelName) {
 }
 
 // Check if the model exists and then generate the route file
-;(async () => {
+const run = async () => {
 	const modelExists = await checkTable(modelName)
 	if (modelExists) {
 		await generateControllerFile(modelName)
@@ -60,4 +60,5 @@ if (!modelName) {
 	} else {
 		console.log(`Model "${modelName}" does not exist in schema.`)
 	}
-})()
+}
+await run()

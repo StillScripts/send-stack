@@ -2,10 +2,11 @@ import { capitalize } from '@/lib/utils'
 
 export const controllerTemplate = (modelName: string) => {
 	const ModelName = capitalize(modelName)
-	return `import { movies } from '@/db/schema'
-import BaseController from '@/lib/base-controller'
+	return `import { ${modelName} } from '@/db/schema'
 
-export const prefix = '/movies'
+import BaseController from './base.controller'
+
+export const prefix = '/${modelName}'
 const frontendPrefix = prefix
 
 export class ${ModelName}Controller extends BaseController<typeof ${modelName}> {
@@ -21,30 +22,28 @@ export const routerTemplate = (modelName: string) => {
 	return `import { Elysia, t } from 'elysia'
 
 import {
-	MoviesController,
+	${ModelName}Controller,
 	prefix
-} from '@/app/(server)/controllers/movies.controller'
+} from '@/app/(server)/controllers/${modelName}.controller'
+ import { ${modelName}BackendSchema } from '@/app/(server)/validators/${modelName}.validator'
 
 export const ${modelName}Router = new Elysia({ prefix })
 	.decorate({
 		${ModelName}Controller: new ${ModelName}Controller()
 	})
 	.get('/', async ({ ${ModelName}Controller }) => {
-        return await ${ModelName}Controller.index()
-    })
-	.get(
-		'/:id',
-		async ({ ${ModelName}Controller, params: { id } }) => {
-            return await ${ModelName}Controller.show(id)
-        }
-	)
+		return await ${ModelName}Controller.index()
+	})
+	.get('/:id', async ({ ${ModelName}Controller, params: { id } }) => {
+		return await ${ModelName}Controller.show(id)
+	})
 	.post(
 		'/',
 		async ({ ${ModelName}Controller, body }) => {
-			return await ${ModelName}Controller.create(body)
+			await ${ModelName}Controller.create(body)
 		},
 		{
-			body: t.Object({ title: t.String(), releaseYear: t.Number() })
+			body: ${modelName}BackendSchema
 		}
 	)
 	.patch(
@@ -53,13 +52,11 @@ export const ${modelName}Router = new Elysia({ prefix })
 			await ${ModelName}Controller.update(id, body)
 		},
 		{
-			body: t.Partial(t.Object({ title: t.String(), releaseYear: t.Number() }))
+			body: t.Partial(${modelName}BackendSchema)
 		}
 	)
-	.delete(
-		'/:id',
-		async ({ ${ModelName}Controller, params: { id } }) => {
-			await ${ModelName}Controller.delete(id)
-		}
-	)`
+	.delete('/:id', async ({ ${ModelName}Controller, params: { id } }) => {
+		await ${ModelName}Controller.delete(id)
+	})
+`
 }
