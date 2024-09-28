@@ -1,5 +1,9 @@
 import { Type } from '@sinclair/typebox'
 import { t } from 'elysia'
+import { movies } from '@/db/schema'
+import { InferSelectModel } from 'drizzle-orm'
+
+export type Movie = InferSelectModel<typeof movies>
 
 export const moviesBackendSchema = t.Object({
 	title: t.String(),

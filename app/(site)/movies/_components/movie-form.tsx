@@ -12,7 +12,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { FormCard } from '@/components/ui/form-card'
-import { moviesFrontendSchema } from '@/app/(server)/validators/movies.validator'
+import {
+	type Movie,
+	moviesFrontendSchema
+} from '@/app/(server)/validators/movies.validator'
 import { client } from '@/app/(site)/client'
 import { useErrorOrRedirect } from '@/lib/hooks/use-error-or-redirect'
 
@@ -20,11 +23,7 @@ const schema = moviesFrontendSchema
 const typecheck = TypeCompiler.Compile(schema)
 type FormFields = Static<typeof schema>
 
-export const MovieForm = ({}: {
-	movie?: NonNullable<
-		Awaited<ReturnType<typeof client.api.movies.index.get>>['data']
-	>[number]
-}) => {
+export const MovieForm = ({ movie }: { movie?: Movie }) => {
 	const { handleResponse } = useErrorOrRedirect()
 	const form = useForm<FormFields>({
 		resolver: typeboxResolver(typecheck)
