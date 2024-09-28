@@ -1,9 +1,10 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { client } from '@/app/(site)/client'
 import { MovieForm } from '@/app/(site)/movies/_components/movie-form'
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: 'Edit Movie'
 }
 

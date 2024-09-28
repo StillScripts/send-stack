@@ -3,8 +3,6 @@ import { describe, expect, it } from 'bun:test'
 
 import { app } from '@/app/(server)/server'
 
-console.log(process.env)
-
 describe('Elysia', () => {
 	it('return a response', async () => {
 		const response = await app

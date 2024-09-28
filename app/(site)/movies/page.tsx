@@ -1,11 +1,11 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { client } from '@/app/(site)/client'
+import { MovieCard } from '@/app/(site)/movies/_components/movie-card'
 import { Button } from '@/components/ui/button'
 
-import { MovieCard } from './_components/movie-card'
-
-export const metadata = {
+export const metadata: Metadata = {
 	title: 'Movies'
 }
 
@@ -22,7 +22,6 @@ export default async function MoviesPage() {
 					<Link href="/movies/new">Add New Movie</Link>
 				</Button>
 			</div>
-
 			<div className="mt-8 flex flex-wrap justify-center gap-4">
 				{data?.map(movie => <MovieCard key={movie.id} movie={movie} />)}
 			</div>

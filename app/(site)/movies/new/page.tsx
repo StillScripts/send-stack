@@ -1,6 +1,8 @@
+import type { Metadata } from 'next'
+
 import { MovieForm } from '@/app/(site)/movies/_components/movie-form'
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: 'Add New Movie'
 }
 
