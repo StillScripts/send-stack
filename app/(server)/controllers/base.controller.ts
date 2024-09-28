@@ -1,8 +1,10 @@
 import type { Route } from 'next'
 import { revalidatePath } from 'next/cache'
-import { db } from '@/db'
-import { type InferInsertModel, InferSelectModel, eq } from 'drizzle-orm'
+
+import { eq, type InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import type { SQLiteTable } from 'drizzle-orm/sqlite-core' // or MySql, Postgres, etc...
+
+import { db } from '@/db'
 
 class BaseController<
 	T extends SQLiteTable & {
@@ -17,6 +19,13 @@ class BaseController<
 		this.db = db
 		this.model = model
 		this.prefix = prefix
+	}
+
+	updateCache(id?: string | number) {
+		revalidatePath(this.prefix)
+		if (id) {
+			revalidatePath(`${this.prefix}/edit/${id}`)
+		}
 	}
 
 	async index(): Promise<Array<InferSelectModel<T>>> {
@@ -34,7 +43,7 @@ class BaseController<
 
 	async create(data: InferInsertModel<T>) {
 		const [result] = await this.db.insert(this.model).values(data).returning()
-		revalidatePath(this.prefix)
+		this.updateCache()
 		return result
 	}
 
@@ -47,8 +56,7 @@ class BaseController<
 			.set(data as any)
 			.where(eq(this.model.id, id))
 			.returning()
-		revalidatePath(this.prefix)
-		revalidatePath(`${this.prefix}/edit/${id}`)
+		this.updateCache(id)
 		return result
 	}
 
@@ -57,8 +65,7 @@ class BaseController<
 			.delete(this.model)
 			.where(eq(this.model.id, id))
 			.returning()
-		revalidatePath(this.prefix)
-		revalidatePath(`${this.prefix}/edit/${id}`)
+		this.updateCache(id)
 		return result
 	}
 }

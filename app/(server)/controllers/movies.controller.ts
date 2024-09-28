@@ -1,6 +1,6 @@
 import { movies } from '@/db/schema'
 
-import BaseController from '@/lib/base-controller'
+import BaseController from './base.controller'
 
 export const prefix = '/movies'
 const frontendPrefix = prefix
