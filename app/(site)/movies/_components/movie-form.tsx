@@ -1,7 +1,7 @@
 'use client'
 import { useForm } from 'react-hook-form'
 import { typeboxResolver } from '@hookform/resolvers/typebox'
-import { Static, Type } from '@sinclair/typebox'
+import { Static } from '@sinclair/typebox'
 import { TypeCompiler } from '@sinclair/typebox/compiler'
 import {
 	FormControl,
@@ -13,18 +13,27 @@ import {
 import { Input } from '@/components/ui/input'
 import { FormCard } from '@/components/ui/form-card'
 import { moviesFrontendSchema } from '@/app/(server)/validators/movies.validator'
+import { client } from '@/app/(site)/client'
 
 const schema = moviesFrontendSchema
 const typecheck = TypeCompiler.Compile(schema)
 type FormFields = Static<typeof schema>
 
-export const MovieForm = () => {
+export const MovieForm = ({}: {
+	movie?: NonNullable<
+		Awaited<ReturnType<typeof client.api.movies.index.get>>['data']
+	>[number]
+}) => {
 	const form = useForm<FormFields>({
 		resolver: typeboxResolver(typecheck)
 	})
 
-	const onSubmit = async (d: FormFields) => {
-		alert(d.title)
+	const onSubmit = async (data: FormFields) => {
+		await client.api.movies.index.post({
+			...data,
+			releaseYear: parseInt(data.releaseYear)
+		})
+		alert('new movie created')
 	}
 
 	return (

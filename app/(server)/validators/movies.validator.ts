@@ -8,5 +8,5 @@ export const moviesBackendSchema = t.Object({
 
 export const moviesFrontendSchema = Type.Object({
 	title: Type.String(),
-	releaseYear: Type.Number()
+	releaseYear: Type.String() // string that becomes number
 })
