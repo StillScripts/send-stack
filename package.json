@@ -12,7 +12,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun db/migrate.ts",
     "db:seed": "bun db/seed.ts",
-    "generate:backend": "bun scripts/generator.ts "
+    "generate:backend": "bun scripts/generator.ts backend",
+    "generate:frontend": "bun scripts/generator.ts frontend"
   },
   "dependencies": {
     "@elysiajs/eden": "^1.1.3",
