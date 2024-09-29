@@ -120,6 +120,91 @@ export const ${ModelName}Card = ({ ${noPlural(modelName)} }: { ${noPlural(modelN
 `
 }
 
+export const formTemplate = (modelName: string) => {
+	const ModelName = noPlural(capitalize(modelName))
+	return `'use client'
+import { useForm } from 'react-hook-form'
+
+import { typeboxResolver } from '@hookform/resolvers/typebox'
+import { Static } from '@sinclair/typebox'
+import { TypeCompiler } from '@sinclair/typebox/compiler'
+
+import {
+	type ${ModelName},
+	${modelName}FrontendSchema
+} from '@/app/(server)/validators/${modelName}.validator'
+import { client } from '@/app/(site)/client'
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage
+} from '@/components/ui/form'
+import { FormCard } from '@/components/ui/form-card'
+import { Input } from '@/components/ui/input'
+
+import { useErrorOrRedirect } from '@/lib/hooks/use-error-or-redirect'
+
+const schema = ${modelName}FrontendSchema
+const typecheck = TypeCompiler.Compile(schema)
+type FormFields = Static<typeof schema>
+
+/**
+ * Form for creating a new ${noPlural(modelName)} or editing an existing one
+ * @param ${noPlural(modelName)} - The ${noPlural(modelName)} being edited (optional)
+ * */
+export const ${ModelName}Form = ({ ${noPlural(modelName)} }: { ${noPlural(modelName)}?: ${ModelName} }) => {
+	const { handleResponse } = useErrorOrRedirect()
+	const form = useForm<FormFields>({
+		resolver: typeboxResolver(typecheck),
+		// @ts-expect-error - you may need to handle types for default values
+		defaultValues: ${noPlural(modelName)} ?? {}
+	})
+
+	const onSubmit = async (data: FormFields) => {
+		const payload = data
+		if (${noPlural(modelName)}?.id) {
+			// @ts-expect-error - you may need to handle types between client and server payloads
+			const { error } = await client.api.${modelName}({ id: ${noPlural(modelName)}.id }).patch(payload)
+			handleResponse(error, '/${modelName}')
+		} else {
+			// @ts-expect-error - you may need to handle types between client and server payloads
+			const { error } = await client.api.${modelName}.index.post(payload)
+			handleResponse(error, '/${modelName}')
+		}
+	}
+
+	return (
+		<FormCard
+			form={form}
+			onSubmit={onSubmit}
+			title="Create New ${ModelName}"
+			className="mx-auto my-8 max-w-96"
+		>
+			<div className="space-y-6">
+				Form fields go here...
+				<FormField
+					control={form.control}
+					// @ts-expect-error - this may not be a field on your model
+					name="title"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Title</FormLabel>
+							<FormControl>
+								<Input placeholder="${ModelName} title" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+			</div>
+		</FormCard>
+	)
+}
+`
+}
+
 export const errorTemplate = () => {
 	return `'use client'
 import { useEffect } from 'react'

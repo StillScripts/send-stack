@@ -9,6 +9,7 @@ import {
 	cardTemplate,
 	editTemplate,
 	errorTemplate,
+	formTemplate,
 	indexTemplate,
 	newTemplate,
 	notFoundTemplate
@@ -98,6 +99,13 @@ export async function generateCustomComponents(
 		cardTemplate,
 		basePath,
 		`${noPlural(modelName)}-card.tsx`
+	)
+	await generateFile(
+		modelName,
+		'custom',
+		formTemplate,
+		basePath,
+		`${noPlural(modelName)}-form.tsx`
 	)
 }
 
