@@ -77,9 +77,9 @@ export default Edit${ModelName}
 `
 }
 
-export const modelCard = (modelName: string) => {
-	const ModelName = capitalize(modelName)
-	const editPath = '`/' + modelName + 's/edit/' + modelName + '.id}`'
+export const cardTemplate = (modelName: string) => {
+	const ModelName = noPlural(capitalize(modelName))
+	const editPath = '`/' + modelName + '/edit/${' + noPlural(modelName) + '.id}`'
 	return `'use client'
 
 import Link from 'next/link'
@@ -96,21 +96,21 @@ import {
 } from '@/components/ui/card'
 import { DeleteButton } from '@/components/ui/delete-button'
 
-export const ${ModelName}Card = ({ ${modelName} }: { ${modelName}: ${ModelName} }) => {
+export const ${ModelName}Card = ({ ${noPlural(modelName)} }: { ${noPlural(modelName)}: ${ModelName} }) => {
 	return (
-		<Card key={${modelName}.id} className="max-w-96">
+		<Card key={${noPlural(modelName)}.id} className="max-w-96">
 			<CardHeader>
-				<CardTitle>${ModelName} - {${modelName}.id}</CardTitle>
+				<CardTitle>${ModelName} - {${noPlural(modelName)}.id}</CardTitle>
 			</CardHeader>
-			<CardContent>{JSON.stringify(${modelName})}</CardContent>
+			<CardContent>{JSON.stringify(${noPlural(modelName)})}</CardContent>
 			<CardFooter className="justify-end gap-2">
 				<Button>
 					<Link href={${editPath}}>Edit</Link>
 				</Button>
 				<DeleteButton
-					description="This will permanently delete this ${modelName}."
+					description="This will permanently delete this ${noPlural(modelName)}."
 					handleDelete={async () => {
-						await client.api.${modelName}({ id: ${modelName}.id }).delete()
+						await client.api.${modelName}({ id: ${noPlural(modelName)}.id }).delete()
 					}}
 				/>
 			</CardFooter>

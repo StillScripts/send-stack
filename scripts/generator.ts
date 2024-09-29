@@ -6,12 +6,15 @@ import {
 	routerTemplate
 } from './generator/backendTemplates'
 import {
+	cardTemplate,
 	editTemplate,
 	errorTemplate,
 	indexTemplate,
 	newTemplate,
 	notFoundTemplate
 } from './generator/frontendTemplates'
+
+import { noPlural } from '@/lib/utils'
 
 async function checkModelExists(modelName: string) {
 	try {
@@ -25,13 +28,17 @@ async function checkModelExists(modelName: string) {
 
 async function generateFile(
 	modelName: string,
-	type: 'router' | 'controller' | 'page' | 'not-found' | 'error',
+	type: 'router' | 'controller' | 'page' | 'not-found' | 'error' | 'custom',
 	templateFunction: (modelName: string) => string,
-	basePath: string
+	basePath: string,
+	customFileName?: string
 ) {
 	let fileName = `${type}.tsx`
 	if (type === 'router' || type === 'controller') {
 		fileName = `${modelName}.${type}.ts`
+	}
+	if (customFileName) {
+		fileName = customFileName
 	}
 	const filePath = path.join(basePath, fileName)
 	try {
@@ -81,6 +88,19 @@ export async function generateEditPage(
 	await generateFile(modelName, 'not-found', notFoundTemplate, basePath)
 }
 
+export async function generateCustomComponents(
+	modelName: string,
+	basePath = `app/(site)/${modelName}/_components`
+) {
+	await generateFile(
+		modelName,
+		'custom',
+		cardTemplate,
+		basePath,
+		`${noPlural(modelName)}-card.tsx`
+	)
+}
+
 // Check if the model exists and then generate the route file
 const run = async () => {
 	// Extract the model name from the command line argument
@@ -101,6 +121,7 @@ const run = async () => {
 			await generateIndexPage(modelName)
 			await generateNewPage(modelName)
 			await generateEditPage(modelName)
+			await generateCustomComponents(modelName)
 		}
 	} else {
 		console.log(`Model "${modelName}" does not exist in schema.`)
