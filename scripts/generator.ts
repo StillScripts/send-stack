@@ -3,7 +3,8 @@ import path from 'path'
 
 import {
 	controllerTemplate,
-	routerTemplate
+	routerTemplate,
+	validatorTemplate
 } from './generator/backendTemplates'
 import {
 	cardTemplate,
@@ -29,13 +30,20 @@ async function checkModelExists(modelName: string) {
 
 async function generateFile(
 	modelName: string,
-	type: 'router' | 'controller' | 'page' | 'not-found' | 'error' | 'custom',
+	type:
+		| 'router'
+		| 'controller'
+		| 'validator'
+		| 'page'
+		| 'not-found'
+		| 'error'
+		| 'custom',
 	templateFunction: (modelName: string) => string,
 	basePath: string,
 	customFileName?: string
 ) {
 	let fileName = `${type}.tsx`
-	if (type === 'router' || type === 'controller') {
+	if (type === 'router' || type === 'controller' || type === 'validator') {
 		fileName = `${modelName}.${type}.ts`
 	}
 	if (customFileName) {
@@ -62,6 +70,13 @@ export async function generateControllerFile(
 	basePath = 'app/(server)/controllers'
 ) {
 	await generateFile(modelName, 'controller', controllerTemplate, basePath)
+}
+
+export async function generateValidatorFile(
+	modelName: string,
+	basePath = 'app/(server)/validators'
+) {
+	await generateFile(modelName, 'validator', validatorTemplate, basePath)
 }
 
 export async function generateIndexPage(
@@ -125,6 +140,7 @@ const run = async () => {
 		if (option === 'backend') {
 			await generateControllerFile(modelName)
 			await generateRouterFile(modelName)
+			await generateValidatorFile(modelName)
 		} else {
 			await generateIndexPage(modelName)
 			await generateNewPage(modelName)

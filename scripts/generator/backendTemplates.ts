@@ -64,7 +64,7 @@ export const ${modelName}Router = new Elysia({ prefix })
 export const validatorTemplate = (modelName: string) => {
 	const ModelName = noPlural(capitalize(modelName))
 	return `import { InferSelectModel } from 'drizzle-orm'
-import { createSelectSchema } from 'drizzle-typebox'
+import { createInsertSchema } from 'drizzle-typebox'
 
 import { ${modelName} } from '@/db/schema'
 
@@ -72,8 +72,8 @@ import { withoutId } from '@/lib/utils'
 
 export type ${ModelName} = InferSelectModel<typeof ${modelName}>
 
-export const ${modelName}BackendSchema = withoutId(createSelectSchema(${modelName}))
+export const ${modelName}BackendSchema = withoutId(createInsertSchema(${modelName}))
 
-export const ${modelName}FrontendSchema = withoutId(createSelectSchema(${modelName}))
+export const ${modelName}FrontendSchema = withoutId(createInsertSchema(${modelName}))
 `
 }

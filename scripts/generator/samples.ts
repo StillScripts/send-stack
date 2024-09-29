@@ -51,3 +51,16 @@ export const moviesRouter = new Elysia({ prefix })
 		await MoviesController.delete(id)
 	})
 `
+
+export const validatorSample = `import { InferSelectModel } from 'drizzle-orm'
+import { createInsertSchema } from 'drizzle-typebox'
+
+import { movies } from '@/db/schema'
+
+import { withoutId } from '@/lib/utils'
+
+export type Movie = InferSelectModel<typeof movies>
+
+export const moviesBackendSchema = withoutId(createInsertSchema(movies))
+
+export const moviesFrontendSchema = withoutId(createInsertSchema(movies))`
