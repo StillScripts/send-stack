@@ -1,7 +1,15 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import { controllerTemplate, routerTemplate } from './generator/templates'
+import {
+	controllerTemplate,
+	routerTemplate
+} from './generator/backendTemplates'
+import {
+	editTemplate,
+	indexTemplate,
+	newTemplate
+} from './generator/frontendTemplates'
 
 async function checkModelExists(modelName: string) {
 	try {
@@ -13,31 +21,57 @@ async function checkModelExists(modelName: string) {
 	}
 }
 
-// Function to generate a new route file based on a model name
+async function generateFile(
+	modelName: string,
+	type: 'router' | 'controller' | 'page',
+	templateFunction: (modelName: string) => string,
+	basePath: string
+) {
+	const filePath = path.join(
+		basePath,
+		type === 'page' ? 'page.tsx' : `${modelName}.${type}.ts`
+	)
+	try {
+		await fs.writeFile(filePath, templateFunction(modelName))
+		console.log(`Generated ${type} file: ${filePath}`)
+	} catch (error) {
+		console.error(`Error generating ${type} file for ${modelName}:`, error)
+	}
+}
+
 export async function generateRouterFile(
 	modelName: string,
 	basePath = 'app/(server)/routers'
 ) {
-	const filePath = path.join(basePath, `${modelName}.router.ts`)
-	try {
-		await fs.writeFile(filePath, routerTemplate(modelName))
-		console.log(`Generated route file: ${filePath}`)
-	} catch (error) {
-		console.error(`Error generating router file for ${modelName}:`, error)
-	}
+	await generateFile(modelName, 'router', routerTemplate, basePath)
 }
 
 export async function generateControllerFile(
 	modelName: string,
 	basePath = 'app/(server)/controllers'
 ) {
-	const filePath = path.join(basePath, `${modelName}.controller.ts`)
-	try {
-		await fs.writeFile(filePath, controllerTemplate(modelName))
-		console.log(`Generated controller file: ${filePath}`)
-	} catch (error) {
-		console.error(`Error generating controller file for ${modelName}:`, error)
-	}
+	await generateFile(modelName, 'controller', controllerTemplate, basePath)
+}
+
+export async function generateIndexPage(
+	modelName: string,
+	basePath = `app/(site)/${modelName}`
+) {
+	await generateFile(modelName, 'page', indexTemplate, basePath)
+}
+
+export async function generateNewPage(
+	modelName: string,
+	basePath = `app/(site)/${modelName}/new`
+) {
+	await generateFile(modelName, 'page', newTemplate, basePath)
+}
+
+export async function generateEditPage(
+	modelName: string,
+	basePath = `app/(site)/${modelName}/edit/[id]`
+) {
+	await generateFile(modelName, 'page', editTemplate, basePath)
 }
 
 // Check if the model exists and then generate the route file
@@ -57,7 +91,9 @@ const run = async () => {
 			await generateControllerFile(modelName)
 			await generateRouterFile(modelName)
 		} else {
-			console.log('Generating frontend')
+			await generateIndexPage(modelName)
+			await generateNewPage(modelName)
+			await generateEditPage(modelName)
 		}
 	} else {
 		console.log(`Model "${modelName}" does not exist in schema.`)

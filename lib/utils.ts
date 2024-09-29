@@ -11,6 +11,10 @@ export const capitalize = (text: string) => {
 	return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
+export const noPlural = (text: string) => {
+	return text.endsWith('s') ? text.slice(0, text.length - 1) : text
+}
+
 export const nanoid = customAlphabet(
 	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
 	7

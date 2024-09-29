@@ -1,4 +1,4 @@
-import { capitalize } from '@/lib/utils'
+import { capitalize, noPlural } from '@/lib/utils'
 
 export const indexTemplate = (modelName: string) => {
 	const ModelName = capitalize(modelName)
@@ -6,28 +6,28 @@ export const indexTemplate = (modelName: string) => {
 import Link from 'next/link'
 
 import { client } from '@/app/(site)/client'
-import { ${ModelName}Card } from '@/app/(site)/${modelName}s/_components/${modelName}-card'
+import { ${noPlural(ModelName)}Card } from '@/app/(site)/${modelName}/_components/${noPlural(modelName)}-card'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-	title: '${ModelName}s'
+	title: '${ModelName}'
 }
 
-export default async function ${ModelName}sPage() {
-	const { data, error } = await client.api.${modelName}s.index.get()
+export default async function ${ModelName}Page() {
+	const { data, error } = await client.api.${modelName}.index.get()
 	if (error || !data) {
 		throw new Error((error.value as string) ?? 'An Error Occurred')
 	}
 	return (
 		<div className="mt-8">
 			<div className="flex flex-wrap justify-center gap-6">
-				<h1 className="text-center text-3xl font-bold sm:text-4xl">${ModelName}s</h1>
+				<h1 className="text-center text-3xl font-bold sm:text-4xl">${ModelName}</h1>
 				<Button variant="outline" asChild>
-					<Link href="/${modelName}s/new">Add New ${ModelName}</Link>
+					<Link href="/${modelName}/new">Add New ${noPlural(ModelName)}</Link>
 				</Button>
 			</div>
 			<div className="mt-8 flex flex-wrap justify-center gap-4">
-				{data?.map(${modelName} => <${ModelName}Card key={${modelName}.id} ${modelName}={${modelName}} />)}
+				{data?.map(${noPlural(modelName)} => <${noPlural(ModelName)}Card key={${noPlural(modelName)}.id} ${noPlural(modelName)}={${noPlural(modelName)}} />)}
 			</div>
 		</div>
 	)
@@ -36,10 +36,10 @@ export default async function ${ModelName}sPage() {
 }
 
 export const newTemplate = (modelName: string) => {
-	const ModelName = capitalize(modelName)
+	const ModelName = noPlural(capitalize(modelName))
 	return `import type { Metadata } from 'next'
 
-import { ${ModelName}Form } from '@/app/(site)/${modelName}s/_components/${modelName}-form'
+import { ${ModelName}Form } from '@/app/(site)/${modelName}/_components/${noPlural(modelName)}-form'
 
 export const metadata: Metadata = {
 	title: 'Add New ${ModelName}'
@@ -52,25 +52,25 @@ export default function AddNew${ModelName}() {
 }
 
 export const editTemplate = (modelName: string) => {
-	const ModelName = capitalize(modelName)
+	const ModelName = noPlural(capitalize(modelName))
 	return `import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { client } from '@/app/(site)/client'
-import { ${ModelName}Form } from '@/app/(site)/${modelName}s/_components/${modelName}-form'
+import { ${ModelName}Form } from '@/app/(site)/${modelName}/_components/${noPlural(modelName)}-form'
 
 export const metadata: Metadata = {
 	title: 'Edit ${ModelName}'
 }
 
 const Edit${ModelName} = async ({ params }: { params: { id: string } }) => {
-	const { data, error } = await client.api.${modelName}s({ id: params.id }).get()
+	const { data, error } = await client.api.${modelName}({ id: params.id }).get()
 
 	if (error) {
 		notFound()
 	}
 
-	return <${ModelName}Form ${modelName}={data} />
+	return <${ModelName}Form ${noPlural(modelName)}={data} />
 }
 
 export default Edit${ModelName}
@@ -84,7 +84,7 @@ export const modelCard = (modelName: string) => {
 
 import Link from 'next/link'
 
-import type { ${ModelName} } from '@/app/(server)/validators/${modelName}s.validator'
+import type { ${ModelName} } from '@/app/(server)/validators/${modelName}.validator'
 import { client } from '@/app/(site)/client'
 import { Button } from '@/components/ui/button'
 import {
@@ -110,7 +110,7 @@ export const ${ModelName}Card = ({ ${modelName} }: { ${modelName}: ${ModelName} 
 				<DeleteButton
 					description="This will permanently delete this ${modelName}."
 					handleDelete={async () => {
-						await client.api.${modelName}s({ id: ${modelName}.id }).delete()
+						await client.api.${modelName}({ id: ${modelName}.id }).delete()
 					}}
 				/>
 			</CardFooter>
