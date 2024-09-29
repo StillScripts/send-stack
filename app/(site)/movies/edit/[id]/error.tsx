@@ -14,5 +14,11 @@ export default function Error({
 		reportError(error)
 	}, [error])
 
-	return <ErrorPage description={`An error occured: ${error.message}`} />
+	return (
+		<ErrorPage
+			title="An Error Occured"
+			description={error.message}
+			reset={reset}
+		/>
+	)
 }

@@ -4,7 +4,7 @@ export default function NotFound() {
 	return (
 		<ErrorPage
 			title="Page Not Found"
-			description="There appears to be an error with the current url path"
+			description="There appears to be no valid page for the current url path."
 		/>
 	)
 }
