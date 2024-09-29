@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const EditMovie = async ({ params }: { params: { id: string } }) => {
 	const { data, error } = await client.api.movies({ id: params.id }).get()
 
-	if (error || !data) {
+	if (error) {
 		notFound()
 	}
 

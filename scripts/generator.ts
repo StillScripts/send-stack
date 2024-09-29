@@ -7,8 +7,10 @@ import {
 } from './generator/backendTemplates'
 import {
 	editTemplate,
+	errorTemplate,
 	indexTemplate,
-	newTemplate
+	newTemplate,
+	notFoundTemplate
 } from './generator/frontendTemplates'
 
 async function checkModelExists(modelName: string) {
@@ -23,14 +25,15 @@ async function checkModelExists(modelName: string) {
 
 async function generateFile(
 	modelName: string,
-	type: 'router' | 'controller' | 'page',
+	type: 'router' | 'controller' | 'page' | 'not-found' | 'error',
 	templateFunction: (modelName: string) => string,
 	basePath: string
 ) {
-	const filePath = path.join(
-		basePath,
-		type === 'page' ? 'page.tsx' : `${modelName}.${type}.ts`
-	)
+	let fileName = `${type}.tsx`
+	if (type === 'router' || type === 'controller') {
+		fileName = `${modelName}.${type}.ts`
+	}
+	const filePath = path.join(basePath, fileName)
 	try {
 		await fs.writeFile(filePath, templateFunction(modelName))
 		console.log(`Generated ${type} file: ${filePath}`)
@@ -58,6 +61,7 @@ export async function generateIndexPage(
 	basePath = `app/(site)/${modelName}`
 ) {
 	await generateFile(modelName, 'page', indexTemplate, basePath)
+	await generateFile(modelName, 'not-found', notFoundTemplate, basePath)
 }
 
 export async function generateNewPage(
@@ -65,6 +69,7 @@ export async function generateNewPage(
 	basePath = `app/(site)/${modelName}/new`
 ) {
 	await generateFile(modelName, 'page', newTemplate, basePath)
+	await generateFile(modelName, 'error', errorTemplate, basePath)
 }
 
 export async function generateEditPage(
@@ -72,6 +77,8 @@ export async function generateEditPage(
 	basePath = `app/(site)/${modelName}/edit/[id]`
 ) {
 	await generateFile(modelName, 'page', editTemplate, basePath)
+	await generateFile(modelName, 'error', errorTemplate, basePath)
+	await generateFile(modelName, 'not-found', notFoundTemplate, basePath)
 }
 
 // Check if the model exists and then generate the route file

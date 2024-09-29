@@ -66,7 +66,7 @@ export const metadata: Metadata = {
 const Edit${ModelName} = async ({ params }: { params: { id: string } }) => {
 	const { data, error } = await client.api.${modelName}({ id: params.id }).get()
 
-	if (error) {
+	if (error || !data) {
 		notFound()
 	}
 
@@ -115,6 +115,48 @@ export const ${ModelName}Card = ({ ${modelName} }: { ${modelName}: ${ModelName} 
 				/>
 			</CardFooter>
 		</Card>
+	)
+}
+`
+}
+
+export const errorTemplate = () => {
+	return `'use client'
+import { useEffect } from 'react'
+
+import { ErrorPage } from '@/components/ui/error-page'
+
+export default function Error({
+	error,
+	reset
+}: {
+	error: Error & { digest?: string }
+	reset: () => void
+}) {
+	useEffect(() => {
+		reportError(error)
+	}, [error])
+
+	return (
+		<ErrorPage
+			title="An Error Occured"
+			description={error.message}
+			reset={reset}
+		/>
+	)
+}
+`
+}
+
+export const notFoundTemplate = () => {
+	return `import { ErrorPage } from '@/components/ui/error-page'
+
+export default function NotFound() {
+	return (
+		<ErrorPage
+			title="Page Not Found"
+			description="There appears to be no valid page for the current url path."
+		/>
 	)
 }
 `
