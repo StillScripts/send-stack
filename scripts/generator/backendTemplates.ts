@@ -1,4 +1,4 @@
-import { capitalize } from '@/lib/utils'
+import { capitalize, noPlural } from '@/lib/utils'
 
 export const controllerTemplate = (modelName: string) => {
 	const ModelName = capitalize(modelName)
@@ -58,5 +58,22 @@ export const ${modelName}Router = new Elysia({ prefix })
 	.delete('/:id', async ({ ${ModelName}Controller, params: { id } }) => {
 		await ${ModelName}Controller.delete(id)
 	})
+`
+}
+
+export const validatorTemplate = (modelName: string) => {
+	const ModelName = noPlural(capitalize(modelName))
+	return `import { InferSelectModel } from 'drizzle-orm'
+import { createSelectSchema } from 'drizzle-typebox'
+
+import { ${modelName} } from '@/db/schema'
+
+import { withoutId } from '@/lib/utils'
+
+export type ${ModelName} = InferSelectModel<typeof ${modelName}>
+
+export const ${modelName}BackendSchema = withoutId(createSelectSchema(${modelName}))
+
+export const ${modelName}FrontendSchema = withoutId(createSelectSchema(${modelName}))
 `
 }
