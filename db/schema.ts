@@ -14,6 +14,6 @@ const createdAndUpdated = {
 export const movies = sqliteTable('movies', {
 	id: integer('id').primaryKey(),
 	title: text('name'),
-	releaseYear: integer('release_year')
-	//...createdAndUpdated
+	releaseYear: integer('release_year'),
+	...createdAndUpdated
 })
