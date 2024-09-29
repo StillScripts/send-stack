@@ -1,13 +1,12 @@
 import { defineConfig } from 'drizzle-kit'
 
-const url = process.env.NODE_ENV === 'test' ? 'test.db' : 'sqlite.db'
-console.log(url)
+import { DB_URL } from './db'
 
 export default defineConfig({
 	schema: './db/schema.ts',
 	out: './migrations',
 	dialect: 'sqlite',
 	dbCredentials: {
-		url
+		url: DB_URL
 	}
 })

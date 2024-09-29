@@ -1,9 +1,12 @@
-// test/index.test.ts
-import { describe, expect, it } from 'bun:test'
+import { beforeAll, describe, expect, it } from 'bun:test'
 
 import { app } from '@/app/(server)/server'
+import { setupDB } from '@/db/migrate'
 
 describe('Elysia', () => {
+	beforeAll(async () => {
+		await setupDB()
+	})
 	it('return a response', async () => {
 		const response = await app
 			.handle(new Request('http://localhost/api'))
@@ -11,7 +14,7 @@ describe('Elysia', () => {
 
 		expect(response).toBe('THE SEND STACK')
 	})
-	it('return a response', async () => {
+	it('returns movies', async () => {
 		const response = await app
 			.handle(new Request('http://localhost/api/movies'))
 			.then(res => res.text())
