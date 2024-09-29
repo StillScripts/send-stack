@@ -23,3 +23,8 @@ export const nanoid = customAlphabet(
 export function withoutId<Schema extends TObject>(schema: Schema) {
 	return Omit(schema, ['id'])
 }
+
+/** Placeholder for reporting error to an error service */
+export const reportError = (error: Error) => {
+	console.error(error)
+}
