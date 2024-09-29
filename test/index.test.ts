@@ -11,4 +11,12 @@ describe('Elysia', () => {
 
 		expect(response).toBe('THE SEND STACK')
 	})
+	it('return a response', async () => {
+		const response = await app
+			.handle(new Request('http://localhost/api/movies'))
+			.then(res => res.text())
+		console.log(response)
+
+		expect(true).toBe(true)
+	})
 })
