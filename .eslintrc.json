@@ -1,7 +1,7 @@
 {
-  "extends": "next/core-web-vitals",
-  "plugins": ["simple-import-sort"],
-  "overrides": [
+	"extends": "next/core-web-vitals",
+	"plugins": ["simple-import-sort"],
+	"overrides": [
 		{
 			"files": ["*"],
 			"rules": {
@@ -14,9 +14,7 @@
 							],
 							["^react", "^next"],
 							["^@?\\w"],
-							[
-								"^(@/db|@/app||@/components|@/lib/@/scripts)(/.*|$)"
-							],
+							["^(@/db|@/app||@/components|@/lib/@/scripts)(/.*|$)"],
 							["^\\u0000"],
 							["^\\.\\.(?!/?$)", "^\\.\\./?$"],
 							["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
