@@ -102,7 +102,15 @@ export const ${ModelName}Card = ({ ${noPlural(modelName)} }: { ${noPlural(modelN
 			<CardHeader>
 				<CardTitle>${ModelName} - {${noPlural(modelName)}.id}</CardTitle>
 			</CardHeader>
-			<CardContent>{JSON.stringify(${noPlural(modelName)})}</CardContent>
+			<CardContent>
+				<ul>
+					{Object.entries(${noPlural(modelName)}).map(([key, value], index) => (
+						<li key={key + '-' + index}>
+							<span className="font-bold">{key}</span>: {value}
+						</li>
+					))}
+				</ul>
+			</CardContent>
 			<CardFooter className="justify-end gap-2">
 				<Button>
 					<Link href={${editPath}}>Edit</Link>
