@@ -4,11 +4,11 @@ import { t } from 'elysia'
 
 import { movies } from '@/db/schema'
 
-import { withoutId } from '@/lib/utils'
+import { withoutDefaults } from '@/lib/utils'
 
 export type Movie = InferSelectModel<typeof movies>
 
-export const moviesBackendSchema = withoutId(createSelectSchema(movies))
+export const moviesBackendSchema = withoutDefaults(createSelectSchema(movies))
 
 export const moviesFrontendSchema = t.Object({
 	title: t.String(),

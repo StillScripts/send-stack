@@ -22,6 +22,9 @@ class BaseController<
 	}
 
 	updateCache(id?: string | number) {
+		if (process.env.NODE_ENV === 'test') {
+			return
+		}
 		revalidatePath(this.prefix)
 		if (id) {
 			revalidatePath(`${this.prefix}/edit/${id}`)

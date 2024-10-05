@@ -20,7 +20,15 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
 			<CardHeader>
 				<CardTitle>Movie - {movie.id}</CardTitle>
 			</CardHeader>
-			<CardContent>{JSON.stringify(movie)}</CardContent>
+			<CardContent>
+				<ul>
+					{Object.entries(movie).map(([key, value], index) => (
+						<li key={key + '-' + index}>
+							<span className="font-bold">{key}</span>: {value}
+						</li>
+					))}
+				</ul>
+			</CardContent>
 			<CardFooter className="justify-end gap-2">
 				<Button>
 					<Link href={`/movies/edit/${movie.id}`}>Edit</Link>

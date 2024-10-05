@@ -68,12 +68,12 @@ import { createInsertSchema } from 'drizzle-typebox'
 
 import { ${modelName} } from '@/db/schema'
 
-import { withoutId } from '@/lib/utils'
+import { withoutDefaults } from '@/lib/utils'
 
 export type ${ModelName} = InferSelectModel<typeof ${modelName}>
 
-export const ${modelName}BackendSchema = withoutId(createInsertSchema(${modelName}))
+export const ${modelName}BackendSchema = withoutDefaults(createInsertSchema(${modelName}))
 
-export const ${modelName}FrontendSchema = withoutId(createInsertSchema(${modelName}))
+export const ${modelName}FrontendSchema = withoutDefaults(createInsertSchema(${modelName}))
 `
 }

@@ -20,8 +20,8 @@ export const nanoid = customAlphabet(
 	7
 )
 
-export function withoutId<Schema extends TObject>(schema: Schema) {
-	return Omit(schema, ['id'])
+export function withoutDefaults<Schema extends TObject>(schema: Schema) {
+	return Omit(schema, ['id', 'createdAt', 'updatedAt'])
 }
 
 /** Placeholder for reporting error to an error service */

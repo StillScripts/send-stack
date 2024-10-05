@@ -1,9 +1,12 @@
-// test/index.test.ts
-import { describe, expect, it } from 'bun:test'
+import { beforeAll, describe, expect, it } from 'bun:test'
 
 import { app } from '@/app/(server)/server'
+import { setupDB } from '@/db/migrate'
 
 describe('Elysia', () => {
+	beforeAll(async () => {
+		await setupDB()
+	})
 	it('return a response', async () => {
 		const response = await app
 			.handle(new Request('http://localhost/api'))
