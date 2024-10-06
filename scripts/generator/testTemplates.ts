@@ -2,25 +2,25 @@ import { noPlural } from '@/lib/utils'
 
 export const backendTests = (modelName: string) => {
 	return `import { treaty } from '@elysiajs/eden'
-import { Database } from 'bun:sqlite'
-import { beforeEach, describe, expect, it } from 'bun:test'
+import { beforeAll, beforeEach, describe, expect, it } from 'bun:test'
 
 import { app } from '@/app/(server)/server'
-import { DB_URL } from '@/db'
+import { db } from '@/db'
+import { setupDB } from '@/db/migrate'
+import { ${modelName} } from '@/db/schema'
 
 const client = treaty(app)
 
-const db = new Database(DB_URL)
-
 const sample = {
 	title: 'Lord of the Rings: Return of the King',
-	releaseYear: 2003
 }
 
 describe('${modelName} router', () => {
+	beforeAll(async () => {
+		await setupDB()
+	})
 	beforeEach(() => {
-		const query = db.query('DELETE FROM ${modelName};')
-		query.get()
+		db.delete(${modelName}).run()
 	})
 	it('creates a ${noPlural(modelName)}', async () => {
 		const { error } = await client.api.${modelName}.index.post(sample)
