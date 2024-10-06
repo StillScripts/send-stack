@@ -2,9 +2,9 @@
 import React from 'react'
 import { useFormState } from 'react-hook-form'
 
-import { Button } from './button'
-
 import { cn } from '@/lib/utils'
+
+import { Button } from './button'
 
 function IconSpinner({ className, ...props }: React.ComponentProps<'svg'>) {
 	return (

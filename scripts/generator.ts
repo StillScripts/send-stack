@@ -57,7 +57,9 @@ async function generateFile(
 		fileName = customFileName
 	}
 	const filePath = path.join(basePath, fileName)
+	const dirPath = path.dirname(filePath)
 	try {
+		await fs.mkdir(dirPath, { recursive: true })
 		await fs.writeFile(filePath, templateFunction(modelName))
 		console.log(`Generated ${type} file: ${filePath}`)
 	} catch (error) {

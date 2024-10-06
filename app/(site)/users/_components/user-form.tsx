@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form'
 import { typeboxResolver } from '@hookform/resolvers/typebox'
 import { Static } from '@sinclair/typebox'
 import { TypeCompiler } from '@sinclair/typebox/compiler'
+import { eq } from 'drizzle-orm'
 
 import {
-	type Movie,
-	moviesFrontendSchema
-} from '@/app/(server)/validators/movies.validator'
+	type User,
+	usersFrontendSchema
+} from '@/app/(server)/validators/users.validator'
 import { client } from '@/app/(site)/client'
 import {
 	FormControl,
@@ -19,61 +20,48 @@ import {
 } from '@/components/ui/form'
 import { FormCard } from '@/components/ui/form-card'
 import { Input } from '@/components/ui/input'
+import { db } from '@/db'
+import { users } from '@/db/schema'
+import { hashPassword, setSession } from '@/lib/auth/session'
 import { useErrorOrRedirect } from '@/lib/hooks/use-error-or-redirect'
 
-const schema = moviesFrontendSchema
+const schema = usersFrontendSchema
 const typecheck = TypeCompiler.Compile(schema)
 type FormFields = Static<typeof schema>
 
 /**
- * Form for creating a new movie or editing an existing one
- * @param movie - The movie being edited (optional)
+ * Form for creating a new user or editing an existing one
+ * @param user - The user being edited (optional)
  * */
-export const MovieForm = ({ movie }: { movie?: Movie }) => {
+export const UserForm = ({ user }: { user?: User }) => {
 	const { handleResponse } = useErrorOrRedirect()
 	const form = useForm<FormFields>({
 		resolver: typeboxResolver(typecheck),
-		defaultValues: {
-			title: movie?.title ?? '',
-			releaseYear: movie?.releaseYear ? `${movie.releaseYear}` : ''
-		}
+		defaultValues: user ?? {}
 	})
 
-	/**
-	 * Handle updating an existing action if the movie exists already,
-	 * or create a new movie. Redirect to `/movies` if action was successful.
-	 * @param data - User data from the form
-	 */
 	const onSubmit = async (data: FormFields) => {
-		const payload = {
-			...data,
-			releaseYear: parseInt(data.releaseYear)
-		}
-		if (movie?.id) {
-			const { error } = await client.api.movies({ id: movie.id }).patch(payload)
-			handleResponse(error, '/movies')
-		} else {
-			const { error } = await client.api.movies.index.post(payload)
-			handleResponse(error, '/movies')
-		}
+		const payload = data
+		const { error } = await client.api.users.index.post(payload)
+		handleResponse(error, '/users')
 	}
 
 	return (
 		<FormCard
 			form={form}
 			onSubmit={onSubmit}
-			title="Create New Movie"
+			title="Sign Up"
 			className="mx-auto my-8 max-w-96"
 		>
 			<div className="space-y-6">
 				<FormField
 					control={form.control}
-					name="title"
+					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Title</FormLabel>
+							<FormLabel>Email</FormLabel>
 							<FormControl>
-								<Input placeholder="Movie title" {...field} />
+								<Input type="email" placeholder="Enter your email" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -81,12 +69,16 @@ export const MovieForm = ({ movie }: { movie?: Movie }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="releaseYear"
+					name="password"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Year of Release</FormLabel>
+							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input type="number" {...field} />
+								<Input
+									type="password"
+									placeholder="Enter your password"
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>

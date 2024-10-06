@@ -4,7 +4,10 @@ import {
 	prefix,
 	UsersController
 } from '@/app/(server)/controllers/users.controller'
-import { usersBackendSchema } from '@/app/(server)/validators/users.validator'
+import {
+	usersBackendSchema,
+	usersFrontendSchema
+} from '@/app/(server)/validators/users.validator'
 
 export const usersRouter = new Elysia({ prefix })
 	.decorate({
@@ -19,10 +22,10 @@ export const usersRouter = new Elysia({ prefix })
 	.post(
 		'/',
 		async ({ UsersController, body }) => {
-			await UsersController.create(body)
+			await UsersController.signup(body)
 		},
 		{
-			body: usersBackendSchema
+			body: usersFrontendSchema
 		}
 	)
 	.patch(

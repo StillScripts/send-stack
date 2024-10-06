@@ -3,7 +3,6 @@ import { createSelectSchema } from 'drizzle-typebox'
 import { t } from 'elysia'
 
 import { movies } from '@/db/schema'
-
 import { withoutDefaults } from '@/lib/utils'
 
 export type Movie = InferSelectModel<typeof movies>
