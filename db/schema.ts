@@ -28,7 +28,7 @@ export const blogs = sqliteTable('blogs', {
 	content: text('content', { mode: 'json' }).$type<
 		Array<{
 			type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'paragraph'
-			content: string
+			text: string
 		}>
 	>(),
 	userId: integer('user_id').references(() => users.id),
