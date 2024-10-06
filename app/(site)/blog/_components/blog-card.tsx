@@ -31,7 +31,7 @@ export const BlogCard = ({ blog }: { blog: Blog }) => {
 			</CardContent>
 			<CardFooter className="justify-end gap-2">
 				<Button>
-					<Link href={`/blogs/edit/${blog.id}`}>Edit</Link>
+					<Link href={`/blog/edit/${blog.id}`}>Edit</Link>
 				</Button>
 				<DeleteButton
 					description="This will permanently delete this blog."

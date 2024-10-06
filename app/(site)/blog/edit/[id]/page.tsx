@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { client } from '@/app/(site)/client'
-import { BlogForm } from '@/app/(site)/blogs/_components/blog-form'
+import { BlogForm } from '@/app/(site)/blog/_components/blog-form'
 
 export const metadata: Metadata = {
 	title: 'Edit Blog'

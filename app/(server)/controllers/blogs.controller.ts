@@ -3,7 +3,7 @@ import { blogs } from '@/db/schema'
 import BaseController from './base.controller'
 
 export const prefix = '/blogs'
-const frontendPrefix = prefix
+const frontendPrefix = '/blog'
 
 export class BlogsController extends BaseController<typeof blogs> {
 	constructor() {

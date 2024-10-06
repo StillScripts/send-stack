@@ -12,7 +12,7 @@ export const Header = () => {
 					<Link href="/">Home</Link>
 				</Button>
 				<Button variant="link" asChild>
-					<Link href="/movies">Movies</Link>
+					<Link href="/blog">Blog</Link>
 				</Button>
 				<Button variant="link" asChild>
 					<Link href="/users">Users</Link>
