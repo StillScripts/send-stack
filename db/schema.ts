@@ -24,7 +24,13 @@ export const users = sqliteTable('users', {
 export const blogs = sqliteTable('blogs', {
 	id: integer('id').primaryKey(),
 	title: text('title'),
-	content: text('content'),
+	description: text('description'),
+	content: text('content', { mode: 'json' }).$type<
+		Array<{
+			type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'paragraph'
+			content: string
+		}>
+	>(),
 	userId: integer('user_id').references(() => users.id),
 	...createdAndUpdated
 })

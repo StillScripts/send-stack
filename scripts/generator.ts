@@ -157,7 +157,7 @@ const run = async () => {
 			await generateControllerFile(modelName)
 			await generateRouterFile(modelName)
 			await generateValidatorFile(modelName)
-			await generateBackendTestFile(modelName)
+			//TODO- await generateBackendTestFile(modelName)
 		} else {
 			await generateIndexPage(modelName)
 			await generateNewPage(modelName)

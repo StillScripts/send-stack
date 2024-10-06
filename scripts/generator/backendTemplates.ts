@@ -67,7 +67,6 @@ export const validatorTemplate = (modelName: string) => {
 import { createInsertSchema } from 'drizzle-typebox'
 
 import { ${modelName} } from '@/db/schema'
-
 import { withoutDefaults } from '@/lib/utils'
 
 export type ${ModelName} = InferSelectModel<typeof ${modelName}>
