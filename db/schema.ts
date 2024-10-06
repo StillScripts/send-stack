@@ -35,13 +35,6 @@ export const blogs = sqliteTable('blogs', {
 	...createdAndUpdated
 })
 
-export const movies = sqliteTable('movies', {
-	id: integer('id').primaryKey(),
-	title: text('name'),
-	releaseYear: integer('release_year'),
-	...createdAndUpdated
-})
-
 export const blogsRelations = relations(blogs, ({ one }) => ({
 	user: one(users, {
 		fields: [blogs.userId],
