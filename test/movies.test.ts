@@ -1,13 +1,12 @@
 import { treaty } from '@elysiajs/eden'
-import { Database } from 'bun:sqlite'
-import { beforeEach, describe, expect, it } from 'bun:test'
+import { beforeAll, beforeEach, describe, expect, it } from 'bun:test'
 
 import { app } from '@/app/(server)/server'
-import { DB_URL } from '@/db'
+import { db } from '@/db'
+import { setupDB } from '@/db/migrate'
+import { movies } from '@/db/schema'
 
 const client = treaty(app)
-
-const db = new Database(DB_URL)
 
 const sample = {
 	title: 'Lord of the Rings: Return of the King',
@@ -15,9 +14,11 @@ const sample = {
 }
 
 describe('movies router', () => {
+	beforeAll(async () => {
+		await setupDB()
+	})
 	beforeEach(() => {
-		const query = db.query('DELETE FROM movies;')
-		query.get()
+		db.delete(movies).run()
 	})
 	it('creates a movie', async () => {
 		const { error } = await client.api.movies.index.post(sample)

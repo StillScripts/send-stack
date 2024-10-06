@@ -1,13 +1,12 @@
 import { treaty } from '@elysiajs/eden'
-import { Database } from 'bun:sqlite'
-import { beforeEach, describe, expect, it } from 'bun:test'
+import { beforeAll, beforeEach, describe, expect, it } from 'bun:test'
 
 import { app } from '@/app/(server)/server'
-import { DB_URL } from '@/db'
+import { db } from '@/db'
+import { setupDB } from '@/db/migrate'
+import { users } from '@/db/schema'
 
 const client = treaty(app)
-
-const db = new Database(DB_URL)
 
 const sample = {
 	email: 'test@test.com',
@@ -15,9 +14,11 @@ const sample = {
 }
 
 describe('users router', () => {
+	beforeAll(async () => {
+		await setupDB()
+	})
 	beforeEach(() => {
-		const query = db.query('DELETE FROM users;')
-		query.get()
+		db.delete(users).run()
 	})
 	it('creates a user', async () => {
 		await client.api.users.signup.post(sample)

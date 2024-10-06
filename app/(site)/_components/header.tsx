@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 
+import { LocalRevalidation } from './local-revalidation'
+
 export const Header = () => {
 	return (
 		<header>
@@ -15,6 +17,7 @@ export const Header = () => {
 				<Button variant="link" asChild>
 					<Link href="/users">Users</Link>
 				</Button>
+				{process.env.NODE_ENV === 'development' && <LocalRevalidation />}
 			</nav>
 		</header>
 	)
