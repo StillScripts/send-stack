@@ -12,6 +12,9 @@ export const Header = () => {
 				<Button variant="link" asChild>
 					<Link href="/movies">Movies</Link>
 				</Button>
+				<Button variant="link" asChild>
+					<Link href="/users">Users</Link>
+				</Button>
 			</nav>
 		</header>
 	)

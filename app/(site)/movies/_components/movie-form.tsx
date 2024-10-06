@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/form'
 import { FormCard } from '@/components/ui/form-card'
 import { Input } from '@/components/ui/input'
-
 import { useErrorOrRedirect } from '@/lib/hooks/use-error-or-redirect'
 
 const schema = moviesFrontendSchema

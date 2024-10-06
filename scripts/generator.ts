@@ -1,6 +1,8 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import { noPlural } from '@/lib/utils'
+
 import {
 	controllerTemplate,
 	routerTemplate,
@@ -15,8 +17,7 @@ import {
 	newTemplate,
 	notFoundTemplate
 } from './generator/frontendTemplates'
-
-import { noPlural } from '@/lib/utils'
+import { backendTests } from './generator/testTemplates'
 
 async function checkModelExists(modelName: string) {
 	try {
@@ -37,20 +38,28 @@ async function generateFile(
 		| 'page'
 		| 'not-found'
 		| 'error'
+		| 'test'
 		| 'custom',
 	templateFunction: (modelName: string) => string,
 	basePath: string,
 	customFileName?: string
 ) {
 	let fileName = `${type}.tsx`
-	if (type === 'router' || type === 'controller' || type === 'validator') {
+	if (
+		type === 'router' ||
+		type === 'controller' ||
+		type === 'validator' ||
+		type === 'test'
+	) {
 		fileName = `${modelName}.${type}.ts`
 	}
 	if (customFileName) {
 		fileName = customFileName
 	}
 	const filePath = path.join(basePath, fileName)
+	const dirPath = path.dirname(filePath)
 	try {
+		await fs.mkdir(dirPath, { recursive: true })
 		await fs.writeFile(filePath, templateFunction(modelName))
 		console.log(`Generated ${type} file: ${filePath}`)
 	} catch (error) {
@@ -77,6 +86,13 @@ export async function generateValidatorFile(
 	basePath = 'app/(server)/validators'
 ) {
 	await generateFile(modelName, 'validator', validatorTemplate, basePath)
+}
+
+export async function generateBackendTestFile(
+	modelName: string,
+	basePath = 'test'
+) {
+	await generateFile(modelName, 'test', backendTests, basePath)
 }
 
 export async function generateIndexPage(
@@ -141,6 +157,7 @@ const run = async () => {
 			await generateControllerFile(modelName)
 			await generateRouterFile(modelName)
 			await generateValidatorFile(modelName)
+			await generateBackendTestFile(modelName)
 		} else {
 			await generateIndexPage(modelName)
 			await generateNewPage(modelName)
