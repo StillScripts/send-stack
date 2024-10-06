@@ -1,12 +1,7 @@
-import { and, eq, isNull } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 
 import { users } from '@/db/schema'
-import {
-	comparePasswords,
-	hashPassword,
-	setSession,
-	verifyToken
-} from '@/lib/auth/session'
+import { comparePasswords, hashPassword, setSession } from '@/lib/auth/session'
 
 import BaseController from './base.controller'
 

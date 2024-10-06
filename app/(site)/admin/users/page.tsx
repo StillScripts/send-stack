@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 import { client } from '@/app/(site)/client'
-import { UserCard } from '@/app/(site)/users/_components/user-card'
+import { UserCard } from '@/app/(site)/admin/users/_components/user-card'
 import { Button } from '@/components/ui/button'
 
 export const dynamic = 'force-dynamic'

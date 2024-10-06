@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-import { BlogCard } from '@/app/(site)/blog/_components/blog-card'
+import { BlogCard } from '@/app/(site)/admin/blog/_components/blog-card'
 import { client } from '@/app/(site)/client'
 import { Button } from '@/components/ui/button'
 
@@ -19,7 +19,7 @@ export default async function BlogsPage() {
 			<div className="flex flex-wrap justify-center gap-6">
 				<h1 className="text-center text-3xl font-bold sm:text-4xl">Blogs</h1>
 				<Button variant="outline" asChild>
-					<Link href="/blog/new">Add New Blog</Link>
+					<Link href="/admin/blog/new">Add New Blog</Link>
 				</Button>
 			</div>
 			<div className="mt-8 flex flex-wrap justify-center gap-4">

@@ -59,10 +59,10 @@ export const BlogForm = ({ blog }: { blog?: Blog }) => {
 		const payload = { ...data, userId: user.id }
 		if (blog?.id) {
 			const { error } = await client.api.blogs({ id: blog.id }).patch(payload)
-			handleResponse(error, '/blog')
+			handleResponse(error, '/admin/blog')
 		} else {
 			const { error } = await client.api.blogs.index.post(payload)
-			handleResponse(error, '/blog')
+			handleResponse(error, '/admin/blog')
 		}
 	}
 

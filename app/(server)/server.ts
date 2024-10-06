@@ -14,6 +14,7 @@ export const app = new Elysia({ prefix: '/api' })
 	.post(
 		'/revalidate',
 		({ body }) => {
+			console.log(body.path)
 			if (body.path) revalidatePath(body.path)
 		},
 		{

@@ -13,10 +13,10 @@ export const Header = () => {
 					<Link href="/">Home</Link>
 				</Button>
 				<Button variant="link" asChild>
-					<Link href="/blog">Blog</Link>
+					<Link href="/admin/blog">Blog</Link>
 				</Button>
 				<Button variant="link" asChild>
-					<Link href="/users">Users</Link>
+					<Link href="/admin/users">Users</Link>
 				</Button>
 				{process.env.NODE_ENV === 'development' && <LocalRevalidation />}
 			</nav>
