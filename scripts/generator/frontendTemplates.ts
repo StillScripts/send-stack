@@ -23,7 +23,7 @@ export default async function ${ModelName}Page() {
 			<div className="flex flex-wrap justify-center gap-6">
 				<h1 className="text-center text-3xl font-bold sm:text-4xl">${ModelName}</h1>
 				<Button variant="outline" asChild>
-					<Link href="/${modelName}/new">Add New ${noPlural(ModelName)}</Link>
+					<Link href="/admin/${modelName}/new">Add New ${noPlural(ModelName)}</Link>
 				</Button>
 			</div>
 			<div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -79,7 +79,8 @@ export default Edit${ModelName}
 
 export const cardTemplate = (modelName: string) => {
 	const ModelName = noPlural(capitalize(modelName))
-	const editPath = '`/' + modelName + '/edit/${' + noPlural(modelName) + '.id}`'
+	const editPath =
+		'`/admin/' + modelName + '/edit/${' + noPlural(modelName) + '.id}`'
 	return `'use client'
 
 import Link from 'next/link'
