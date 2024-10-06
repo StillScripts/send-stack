@@ -22,7 +22,12 @@ export const BlogCard = ({ blog }: { blog: Blog }) => {
 	return (
 		<Card key={blog.id} className="max-w-96">
 			<CardHeader>
-				<CardTitle>{blog.title}</CardTitle>
+				<Button className="pl-0" asChild variant="link">
+					<Link href={`/blog/${blog.id}`}>
+						<CardTitle>{blog.title}</CardTitle>
+					</Link>
+				</Button>
+
 				<CardDescription>{blog.description}</CardDescription>
 			</CardHeader>
 			<CardContent>
