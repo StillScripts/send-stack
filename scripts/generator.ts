@@ -1,6 +1,8 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import { noPlural } from '@/lib/utils'
+
 import {
 	controllerTemplate,
 	routerTemplate,
@@ -16,8 +18,6 @@ import {
 	notFoundTemplate
 } from './generator/frontendTemplates'
 import { backendTests } from './generator/testTemplates'
-
-import { noPlural } from '@/lib/utils'
 
 async function checkModelExists(modelName: string) {
 	try {
