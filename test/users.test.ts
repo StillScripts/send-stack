@@ -9,7 +9,10 @@ const client = treaty(app)
 
 const db = new Database(DB_URL)
 
-const sample = { name: 'Aragorn' }
+const sample = {
+	email: 'test@test.com',
+	password: 'testing'
+}
 
 describe('users router', () => {
 	beforeEach(() => {
@@ -17,29 +20,27 @@ describe('users router', () => {
 		query.get()
 	})
 	it('creates a user', async () => {
-		const { error } = await client.api.users.index.post({ name: 'Aragorn' })
-		expect(error).toBe(null)
-
+		await client.api.users.signup.post(sample)
 		const response = await client.api.users.index.get()
 		expect(response.error).toBe(null)
 		const users = response.data ?? []
 		expect(users.length).toBe(1)
-		expect(users[0].name).toBe(sample.name)
+		expect(users[0].email).toBe(sample.email)
 	})
 	it('updates a user', async () => {
-		await client.api.users.index.post(sample)
+		await client.api.users.signup.post(sample)
 		const response = await client.api.users.index.get()
 		const users = response.data ?? []
 		const id = users[0]?.id!
 		const { error } = await client.api
 			.users({ id })
-			.patch({ name: 'New Title' })
+			.patch({ email: 'test2@test.com' })
 		expect(error).toBe(null)
 		const single = await client.api.users({ id }).get()
-		expect(single?.data?.name).toBe('New Title')
+		expect(single?.data?.email).toBe('test2@test.com')
 	})
 	it('deletes a user', async () => {
-		await client.api.users.index.post(sample)
+		await client.api.users.signup.post(sample)
 		const response = await client.api.users.index.get()
 		const users = response.data ?? []
 		expect(users.length).toBe(1)
