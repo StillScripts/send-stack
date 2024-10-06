@@ -18,21 +18,18 @@ export const UserCard = ({ user }: { user: User }) => {
 	return (
 		<Card key={user.id} className="max-w-96">
 			<CardHeader>
-				<CardTitle>User - {user.id}</CardTitle>
+				<CardTitle>Your Details</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<ul>
 					{Object.entries(user).map(([key, value], index) => (
-						<li key={key + '-' + index}>
+						<li className="truncate" key={key + '-' + index}>
 							<span className="font-bold">{key}</span>: {value}
 						</li>
 					))}
 				</ul>
 			</CardContent>
 			<CardFooter className="justify-end gap-2">
-				<Button>
-					<Link href={`/users/edit/${user.id}`}>Edit</Link>
-				</Button>
 				<DeleteButton
 					description="This will permanently delete this user."
 					handleDelete={async () => {

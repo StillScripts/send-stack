@@ -10,10 +10,6 @@ export type User = InferSelectModel<typeof users>
 export const usersBackendSchema = withoutDefaults(createInsertSchema(users))
 
 export const usersFrontendSchema = t.Object({
-	email: t.String({
-		format: 'email'
-	}),
-	password: t.String({
-		format: 'password'
-	})
+	email: t.String(),
+	password: t.String()
 })

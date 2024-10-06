@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 
 import { UserForm } from '@/app/(site)/users/_components/user-form'
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 }
 
 export default function AddNewUser() {
-	return <UserForm />
+	return (
+		<Suspense fallback={null}>
+			<UserForm />
+		</Suspense>
+	)
 }

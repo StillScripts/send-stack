@@ -16,13 +16,33 @@ export const usersRouter = new Elysia({ prefix })
 	.get('/', async ({ UsersController }) => {
 		return await UsersController.index()
 	})
+	.post(
+		'/me',
+		async ({ UsersController, body }) => {
+			console.log(22)
+			console.log(body)
+			return await UsersController.getUser(body)
+		},
+		{
+			body: t.Optional(t.Object({ name: t.String(), value: t.String() }))
+		}
+	)
 	.get('/:id', async ({ UsersController, params: { id } }) => {
 		return await UsersController.show(id)
 	})
 	.post(
-		'/',
+		'/signup',
 		async ({ UsersController, body }) => {
-			await UsersController.signup(body)
+			await UsersController.signUp(body)
+		},
+		{
+			body: usersFrontendSchema
+		}
+	)
+	.post(
+		'/signin',
+		async ({ UsersController, body }) => {
+			await UsersController.signIn(body)
 		},
 		{
 			body: usersFrontendSchema
