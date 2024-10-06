@@ -19,8 +19,6 @@ export const usersRouter = new Elysia({ prefix })
 	.post(
 		'/me',
 		async ({ UsersController, body }) => {
-			console.log(22)
-			console.log(body)
 			return await UsersController.getUser(body)
 		},
 		{
