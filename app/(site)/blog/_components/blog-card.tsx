@@ -24,7 +24,9 @@ export const BlogCard = ({ blog }: { blog: Blog }) => {
 				<ul>
 					{Object.entries(blog).map(([key, value], index) => (
 						<li key={key + '-' + index}>
-							<span className="font-bold">{key}</span>: {value}
+							<span className="font-bold">{key}</span>:&nbsp;
+							{(typeof value === 'string' || typeof value === 'number') &&
+								value}
 						</li>
 					))}
 				</ul>

@@ -9,7 +9,9 @@ import {
 } from 'react'
 import { use } from 'react'
 
-type User = any
+import type { SelectUser } from '@/db/schema'
+
+type User = SelectUser
 
 type UserContextType = {
 	user: User | null
