@@ -48,6 +48,8 @@ export class UsersController extends BaseController<typeof users> {
 			return { error: 'Failed to create user. Please try again.' }
 		}
 
+		this.updateCache()
+
 		await setSession(createdUser)
 	}
 

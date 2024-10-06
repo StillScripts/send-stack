@@ -34,6 +34,7 @@ export function UserProvider({
 	userPromise: Promise<User | null>
 }) {
 	let initialUser = use(userPromise)
+	console.log(initialUser)
 	let [user, setUser] = useState<User | null>(initialUser)
 
 	useEffect(() => {

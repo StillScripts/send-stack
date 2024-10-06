@@ -1,5 +1,5 @@
 'use client'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 
 import { typeboxResolver } from '@hookform/resolvers/typebox'
 import { Static } from '@sinclair/typebox'
@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/form'
 import { FormCard } from '@/components/ui/form-card'
 import { Input } from '@/components/ui/input'
-
 import { useErrorOrRedirect } from '@/lib/hooks/use-error-or-redirect'
 
 const schema = blogsFrontendSchema
@@ -35,13 +34,16 @@ export const BlogForm = ({ blog }: { blog?: Blog }) => {
 	const form = useForm<FormFields>({
 		resolver: typeboxResolver(typecheck),
 		// @ts-expect-error - you may need to handle types for default values
-		defaultValues: blog ?? {}
+		defaultValues: blog ?? { content: [{ type: 'h1', text: 'Heading' }] }
+	})
+	const { fields, append, remove } = useFieldArray({
+		control: form.control,
+		name: 'content'
 	})
 
 	const onSubmit = async (data: FormFields) => {
 		const payload = data
 		if (blog?.id) {
-			// @ts-expect-error - you may need to handle types between client and server payloads
 			const { error } = await client.api.blogs({ id: blog.id }).patch(payload)
 			handleResponse(error, '/blogs')
 		} else {
@@ -56,13 +58,11 @@ export const BlogForm = ({ blog }: { blog?: Blog }) => {
 			form={form}
 			onSubmit={onSubmit}
 			title="Create New Blog"
-			className="mx-auto my-8 max-w-96"
+			className="mx-auto my-8"
 		>
 			<div className="space-y-6">
-				Form fields go here...
 				<FormField
 					control={form.control}
-					// @ts-expect-error - this may not be a field on your model
 					name="title"
 					render={({ field }) => (
 						<FormItem>
@@ -74,6 +74,50 @@ export const BlogForm = ({ blog }: { blog?: Blog }) => {
 						</FormItem>
 					)}
 				/>
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Description</FormLabel>
+							<FormControl>
+								<Input placeholder="Blog description" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<div className="rounded-lg bg-muted p-3">
+					<h4 className="text-lg font-medium">Blog Content</h4>
+					{fields.map((field, index) => (
+						<div key={index} className="flex">
+							<FormField
+								control={form.control}
+								name={`content.${index}.type`}
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Input placeholder="Content type" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name={`content.${index}.type`}
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Input placeholder="Content type" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+					))}
+				</div>
 			</div>
 		</FormCard>
 	)
