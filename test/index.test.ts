@@ -11,7 +11,9 @@ describe('Elysia', () => {
 		await setupDB()
 	})
 	it('return a response', async () => {
-		const { data } = await client.api.index.get()
-		expect(data?.title).toBe('THE SEND STACK')
+		const { data, error } = await client.api.index.get()
+		expect(error).toBe(null)
+		expect(data?.length).toBe(4)
+		expect(data![1].heading).toBe('Elysia.js')
 	})
 })

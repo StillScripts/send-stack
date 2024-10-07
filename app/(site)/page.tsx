@@ -2,36 +2,13 @@ import Image from 'next/image'
 
 import { client } from './client'
 
-const frameworks = [
-	{
-		heading: 'ShadCN',
-		text: 'Explore beautifully designed, accessible, and customizable React components.',
-		url: 'https://ui.shadcn.com/docs'
-	},
-	{
-		heading: 'Elysia.js',
-		text: 'Build TypeScript-first, high-performance web services with ease.',
-		url: 'https://elysiajs.com/quick-start.html'
-	},
-	{
-		heading: 'Next.js',
-		text: 'Learn about server-side rendering, routing, and API features in Next.js.',
-		url: 'https://nextjs.org/docs'
-	},
-	{
-		heading: 'Drizzle',
-		text: 'Discover a lightweight, type-safe ORM for SQL databases in TypeScript.',
-		url: 'https://orm.drizzle.team/docs/overview'
-	}
-]
-
 export default async function Home() {
 	const { data } = await client.api.index.get()
 	return (
 		<main className="flex flex-col items-center justify-between p-6 lg:p-24">
 			<div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
 				<p className="static flex w-auto justify-center rounded-xl border border-b border-gray-300 bg-gray-200 bg-gradient-to-b from-zinc-200 p-4 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit">
-					{data?.title}
+					THE SEND STACK
 				</p>
 				<div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
 					<a
@@ -52,7 +29,7 @@ export default async function Home() {
 				</div>
 			</div>
 			<div className="mb-32 mt-24 grid text-center lg:mb-0 lg:mt-32 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left xl:mt-48">
-				{frameworks.map(framework => (
+				{data?.map(framework => (
 					<a
 						key={framework.heading}
 						href={framework.url}
