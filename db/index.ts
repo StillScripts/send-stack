@@ -2,16 +2,19 @@ import { createClient } from '@libsql/client'
 import { config } from 'dotenv'
 import { drizzle } from 'drizzle-orm/libsql'
 
-export const DB_URL =
-	process.env.NODE_ENV === 'test' ? 'test-sqlite.db' : 'sqlite.db'
-
 config({ path: '.env' })
 
-function getDbConfig() {
+export function getDbConfig() {
 	if (process.env.NODE_ENV === 'test') {
 		return {
 			url: process.env.TEST_TURSO_CONNECTION_URL!,
 			authToken: process.env.TEST_TURSO_AUTH_TOKEN!
+		}
+	}
+	if (process.env.NODE_ENV === 'development') {
+		return {
+			url: process.env.DEV_TURSO_CONNECTION_URL!,
+			authToken: process.env.DEV_TURSO_AUTH_TOKEN!
 		}
 	}
 	return {
