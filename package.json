@@ -13,7 +13,6 @@
 		"test": "bun test",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"db:seed": "bun db/seed.ts",
 		"generate:backend": "bun scripts/generator.ts backend",
 		"generate:frontend": "bun scripts/generator.ts frontend",
 		"generate:tests": "bun scripts/generator.ts tests"
