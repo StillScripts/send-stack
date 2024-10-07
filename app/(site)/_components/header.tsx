@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 import { CurrentUser } from './current-user'
 import { LocalRevalidation } from './local-revalidation'
@@ -17,7 +18,10 @@ export const Header = () => {
 				</Button>
 				{process.env.NODE_ENV === 'development' && <LocalRevalidation />}
 			</nav>
-			<CurrentUser />
+			<div className="flex items-center">
+				<CurrentUser />
+				<ThemeToggle />
+			</div>
 		</header>
 	)
 }

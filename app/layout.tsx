@@ -5,6 +5,8 @@ import { cookies } from 'next/headers'
 import { getUser } from '@/lib/auth/get-user'
 import { UserProvider } from '@/lib/auth/user-context'
 
+import { ThemeProvider } from './theme-provider'
+
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -30,9 +32,16 @@ export default function RootLayout({
 }>) {
 	const userPromise = getUserWithCookies()
 	return (
-		<html lang="en">
+		<html lang="en" className="bg-background">
 			<body className={inter.className}>
-				<UserProvider userPromise={userPromise}>{children}</UserProvider>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="dark"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<UserProvider userPromise={userPromise}>{children}</UserProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	)
