@@ -8,7 +8,7 @@ import {
 	usersBackendSchema,
 	usersFrontendSchema
 } from '@/app/(server)/validators/users.validator'
-import { getUser } from '@/lib/auth/session'
+import { getUser } from '@/lib/auth/get-user'
 
 export const usersRouter = new Elysia({ prefix })
 	.decorate({

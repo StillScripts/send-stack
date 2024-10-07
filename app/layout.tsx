@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
 
-import { getUser } from '@/lib/auth/session'
+import { getUser } from '@/lib/auth/get-user'
 import { UserProvider } from '@/lib/auth/user-context'
 
 import './globals.css'
