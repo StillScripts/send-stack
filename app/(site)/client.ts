@@ -3,6 +3,9 @@ import { treaty } from '@elysiajs/eden'
 import type { App } from '@/app/(server)/server'
 
 const getBaseUrl = () => {
+	if (process.env.VERCEL_ENV === 'preview') {
+		return process.env.VERCEL_URL ?? 'localhost:3000'
+	}
 	if (process.env.NODE_ENV === 'production') {
 		return (
 			(process.env.NEXT_PUBLIC_SITE_URL ||
@@ -10,9 +13,7 @@ const getBaseUrl = () => {
 			'localhost:3000'
 		)
 	}
-	if (process.env.VERCEL_ENV === 'preview') {
-		return process.env.VERCEL_URL ?? 'localhost:3000'
-	}
+
 	return 'localhost:3000'
 }
 
