@@ -8,7 +8,7 @@ import { usersRouter } from './routers/users.router'
 
 export const app = new Elysia({ prefix: '/api' })
 	.use(swagger())
-	.get('/', async () => ({ title: 'THE SEND STACK' }))
+	.get('/', () => ({ title: 'THE SEND STACK' }))
 	.use(usersRouter)
 	.use(blogsRouter)
 	.post(

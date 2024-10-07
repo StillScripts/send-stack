@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 import { UserCard } from '@/app/(site)/admin/users/_components/user-card'
 import { client } from '@/app/(site)/client'
 import { Button } from '@/components/ui/button'
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
