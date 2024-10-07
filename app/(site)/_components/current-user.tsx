@@ -21,7 +21,7 @@ export const CurrentUser = () => {
 			<p>
 				Logged in as&nbsp;
 				<Button asChild className="pl-0" variant="link">
-					<Link href="/admin/users">
+					<Link href="/admin/me">
 						<strong className="font-bold">{user?.email}</strong>
 					</Link>
 				</Button>
