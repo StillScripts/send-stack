@@ -157,6 +157,7 @@ const run = async () => {
 			await generateControllerFile(modelName)
 			await generateRouterFile(modelName)
 			await generateValidatorFile(modelName)
+		} else if (option === 'tests') {
 			await generateBackendTestFile(modelName)
 		} else {
 			await generateIndexPage(modelName)

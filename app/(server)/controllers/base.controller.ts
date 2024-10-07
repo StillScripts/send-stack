@@ -26,8 +26,10 @@ class BaseController<
 			return
 		}
 		revalidatePath(this.prefix)
+		revalidatePath(`/admin${this.prefix}`)
 		if (id) {
-			revalidatePath(`${this.prefix}/edit/${id}`)
+			revalidatePath(`${this.prefix}/${id}`)
+			revalidatePath(`/admin${this.prefix}/edit/${id}`)
 		}
 	}
 

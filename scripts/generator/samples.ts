@@ -56,7 +56,6 @@ export const validatorSample = `import { InferSelectModel } from 'drizzle-orm'
 import { createInsertSchema } from 'drizzle-typebox'
 
 import { movies } from '@/db/schema'
-
 import { withoutDefaults } from '@/lib/utils'
 
 export type Movie = InferSelectModel<typeof movies>

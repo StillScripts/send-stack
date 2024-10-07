@@ -1,12 +1,7 @@
-import { and, eq, isNull } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 
 import { users } from '@/db/schema'
-import {
-	comparePasswords,
-	hashPassword,
-	setSession,
-	verifyToken
-} from '@/lib/auth/session'
+import { comparePasswords, hashPassword, setSession } from '@/lib/auth/session'
 
 import BaseController from './base.controller'
 
@@ -48,6 +43,8 @@ export class UsersController extends BaseController<typeof users> {
 			return { error: 'Failed to create user. Please try again.' }
 		}
 
+		this.updateCache()
+
 		await setSession(createdUser)
 	}
 
@@ -76,36 +73,5 @@ export class UsersController extends BaseController<typeof users> {
 		}
 
 		await setSession(foundUser)
-	}
-
-	async getUser(sessionCookie: { name?: string; value?: string } | null) {
-		if (!sessionCookie || !sessionCookie.value) {
-			return null
-		}
-
-		const sessionData = await verifyToken(sessionCookie.value)
-		if (
-			!sessionData ||
-			!sessionData.user ||
-			typeof sessionData.user.id !== 'number'
-		) {
-			return null
-		}
-
-		if (new Date(sessionData.expires) < new Date()) {
-			return null
-		}
-
-		const user = await this.db
-			.select()
-			.from(users)
-			.where(and(eq(users.id, sessionData.user.id), isNull(users.deletedAt)))
-			.limit(1)
-
-		if (user.length === 0) {
-			return null
-		}
-
-		return user[0]
 	}
 }

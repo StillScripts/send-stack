@@ -47,11 +47,10 @@ export const UserForm = ({ user }: { user?: User }) => {
 		const payload = data
 		if (option === 'Sign Up') {
 			const { error } = await client.api.users.signup.post(payload)
-			handleResponse(error, '/users')
+			handleResponse(error, '/admin/users')
 		} else {
-			const { data, error } = await client.api.users.signin.post(payload)
-			alert(JSON.stringify(data))
-			//handleResponse(error, '/users')
+			const { error } = await client.api.users.signin.post(payload)
+			handleResponse(error, '/admin/users')
 		}
 	}
 
@@ -96,13 +95,21 @@ export const UserForm = ({ user }: { user?: User }) => {
 				</div>
 			</FormCard>
 			<div className="mt-6">
-				<h4>Have an existing account?</h4>
+				<h4>
+					{option === 'Sign In'
+						? "Don't have an existing account?"
+						: 'Have an existing account?'}
+				</h4>
 				<Button
 					className="mt-2"
 					variant="outline"
-					onClick={() => router.push(`${pathname}?option=signin`)}
+					onClick={() =>
+						router.push(
+							`${pathname}?option=${option === 'Sign In' ? 'signup' : 'signin'}`
+						)
+					}
 				>
-					Switch to sign in
+					Switch to {option === 'Sign In' ? 'sign up' : 'sign in'}
 				</Button>
 			</div>
 		</div>

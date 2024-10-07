@@ -24,15 +24,14 @@ export const users = sqliteTable('users', {
 export const blogs = sqliteTable('blogs', {
 	id: integer('id').primaryKey(),
 	title: text('title'),
-	content: text('content'),
+	description: text('description'),
+	content: text('content', { mode: 'json' }).$type<
+		Array<{
+			type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'paragraph'
+			text: string
+		}>
+	>(),
 	userId: integer('user_id').references(() => users.id),
-	...createdAndUpdated
-})
-
-export const movies = sqliteTable('movies', {
-	id: integer('id').primaryKey(),
-	title: text('name'),
-	releaseYear: integer('release_year'),
 	...createdAndUpdated
 })
 
@@ -46,3 +45,7 @@ export const blogsRelations = relations(blogs, ({ one }) => ({
 export const usersRelations = relations(users, ({ many }) => ({
 	blogs: many(blogs)
 }))
+
+export type InsertBlog = typeof blogs.$inferInsert
+
+export type SelectUser = typeof users.$inferSelect

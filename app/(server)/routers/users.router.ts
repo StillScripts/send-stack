@@ -8,6 +8,7 @@ import {
 	usersBackendSchema,
 	usersFrontendSchema
 } from '@/app/(server)/validators/users.validator'
+import { getUser } from '@/lib/auth/get-user'
 
 export const usersRouter = new Elysia({ prefix })
 	.decorate({
@@ -18,8 +19,8 @@ export const usersRouter = new Elysia({ prefix })
 	})
 	.post(
 		'/me',
-		async ({ UsersController, body }) => {
-			return await UsersController.getUser(body)
+		async ({ body }) => {
+			return await getUser(body)
 		},
 		{
 			body: t.Optional(t.Object({ name: t.String(), value: t.String() }))
