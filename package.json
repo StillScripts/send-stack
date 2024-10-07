@@ -3,9 +3,9 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "bun --bun next dev",
-		"build": "bun --bun next build",
-		"start": "bun --bun next start",
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
 		"lint": "next lint",
 		"lint:fix": "next lint --fix",
 		"format": "bun prettier --write .",
@@ -43,7 +43,6 @@
 		"react": "^18",
 		"react-dom": "^18",
 		"react-hook-form": "^7.53.0",
-		"sharp": "^0.33.5",
 		"tailwind-merge": "^2.5.2",
 		"tailwindcss-animate": "^1.0.7"
 	},
