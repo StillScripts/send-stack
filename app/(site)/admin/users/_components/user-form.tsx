@@ -11,7 +11,6 @@ import {
 	usersFrontendSchema
 } from '@/app/(server)/validators/users.validator'
 import { client } from '@/app/(site)/client'
-import { Button } from '@/components/ui/button'
 import {
 	FormControl,
 	FormField,
@@ -31,32 +30,40 @@ type FormFields = Static<typeof schema>
  * Form for creating a new user or editing an existing one
  * @param user - The user being edited (optional)
  * */
-export const UserForm = ({ user }: { user?: User }) => {
-	const pathname = usePathname()
-	const router = useRouter()
-	const searchParams = useSearchParams()
+export const UserForm = ({
+	user,
+	isFirst
+}: {
+	user?: User
+	isFirst: boolean
+}) => {
 	const { handleResponse } = useErrorOrRedirect()
 	const form = useForm<FormFields>({
 		resolver: typeboxResolver(typecheck),
 		defaultValues: user ?? {}
 	})
 
-	const option = searchParams.get('option') === 'signin' ? 'Sign In' : 'Sign Up'
+	const option = isFirst ? 'Create Your Account' : 'Sign In'
 
 	const onSubmit = async (data: FormFields) => {
 		const payload = data
-		if (option === 'Sign Up') {
+		if (option === 'Create Your Account') {
 			const { error } = await client.api.users.signup.post(payload)
-			handleResponse(error, '/admin/users')
+			handleResponse(error, '/admin/me')
 		} else {
 			const { error } = await client.api.users.signin.post(payload)
-			handleResponse(error, '/admin/users')
+			handleResponse(error, '/admin/me')
 		}
 	}
 
 	return (
 		<div className="mx-auto my-8 max-w-96">
-			<FormCard form={form} onSubmit={onSubmit} title={option}>
+			<FormCard
+				form={form}
+				onSubmit={onSubmit}
+				title={option}
+				buttonText={option}
+			>
 				<div className="space-y-6">
 					<FormField
 						control={form.control}
@@ -94,24 +101,6 @@ export const UserForm = ({ user }: { user?: User }) => {
 					/>
 				</div>
 			</FormCard>
-			<div className="mt-6">
-				<h4>
-					{option === 'Sign In'
-						? "Don't have an existing account?"
-						: 'Have an existing account?'}
-				</h4>
-				<Button
-					className="mt-2"
-					variant="outline"
-					onClick={() =>
-						router.push(
-							`${pathname}?option=${option === 'Sign In' ? 'signup' : 'signin'}`
-						)
-					}
-				>
-					Switch to {option === 'Sign In' ? 'sign up' : 'sign in'}
-				</Button>
-			</div>
 		</div>
 	)
 }

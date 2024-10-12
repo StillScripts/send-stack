@@ -12,7 +12,11 @@ export const capitalize = (text: string) => {
 }
 
 export const noPlural = (text: string) => {
-	return text.endsWith('s') ? text.slice(0, text.length - 1) : text
+	const exclusions = ['movies']
+	if (!exclusions.includes(text.toLowerCase()) && text.endsWith('ies')) {
+		return text.slice(0, -3) + 'y'
+	}
+	return text.endsWith('s') ? text.slice(0, -1) : text
 }
 
 export const nanoid = customAlphabet(
