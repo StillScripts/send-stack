@@ -1,3 +1,5 @@
+import { revalidatePath } from 'next/cache'
+
 import { eq } from 'drizzle-orm'
 
 import { users } from '@/db/schema'
@@ -11,6 +13,11 @@ const frontendPrefix = prefix
 export class UsersController extends BaseController<typeof users> {
 	constructor() {
 		super(users, frontendPrefix)
+	}
+
+	async noUsersExist() {
+		const users = await this.db.select().from(this.model)
+		return users.length === 0
 	}
 
 	async signUp(data: { email: string; password: string }) {
@@ -31,7 +38,7 @@ export class UsersController extends BaseController<typeof users> {
 		const newUser = {
 			email,
 			passwordHash,
-			role: 'user'
+			role: 'admin'
 		}
 
 		const [createdUser] = await this.db
@@ -44,6 +51,7 @@ export class UsersController extends BaseController<typeof users> {
 		}
 
 		this.updateCache()
+		revalidatePath('/sign-in')
 
 		await setSession(createdUser)
 	}

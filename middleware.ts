@@ -14,6 +14,10 @@ export async function middleware(request: NextRequest) {
 		return NextResponse.redirect(new URL('/sign-in', request.url))
 	}
 
+	if (pathname === '/sign-in' && sessionCookie) {
+		return NextResponse.redirect(new URL('/admin/me', request.url))
+	}
+
 	let res = NextResponse.next()
 
 	if (sessionCookie) {

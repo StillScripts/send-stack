@@ -19,6 +19,7 @@ export function FormCard<T extends object>({
 	title,
 	description,
 	onSubmit,
+	buttonText = 'Submit',
 	...cardProps
 }: {
 	children: React.ReactNode
@@ -26,6 +27,7 @@ export function FormCard<T extends object>({
 	title?: string
 	description?: string
 	onSubmit: (data: T) => Promise<void>
+	buttonText?: string
 } & Omit<React.ComponentProps<typeof Card>, 'onSubmit'>) {
 	return (
 		<Form {...form}>
@@ -39,7 +41,7 @@ export function FormCard<T extends object>({
 					)}
 					<CardContent>{children}</CardContent>
 					<CardFooter>
-						<PendingButton>Submit</PendingButton>
+						<PendingButton>{buttonText}</PendingButton>
 					</CardFooter>
 				</Card>
 			</form>

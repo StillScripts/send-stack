@@ -17,6 +17,9 @@ export const usersRouter = new Elysia({ prefix })
 	.get('/', async ({ UsersController }) => {
 		return await UsersController.index()
 	})
+	.get('/no-users', async ({ UsersController }) => {
+		return await UsersController.noUsersExist()
+	})
 	.post(
 		'/me',
 		async ({ body }) => {
