@@ -48,9 +48,6 @@ export default async function UsersPage() {
 					<h2 className="text-xl font-bold">
 						You are logged in as: {currentSession.data?.email}
 					</h2>
-					<Button className="mt-4" asChild>
-						<Link href="/admin/blog">Manage Blog</Link>
-					</Button>
 				</div>
 			)}
 			{currentSession.data?.id && (
