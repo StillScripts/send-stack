@@ -1,180 +1,184 @@
-import * as React from 'react'
+'use client'
 
+import * as React from 'react'
+import {
+	BookOpen,
+	Bot,
+	Command,
+	Frame,
+	LifeBuoy,
+	Map,
+	PieChart,
+	Send,
+	Settings2,
+	SquareTerminal
+} from 'lucide-react'
+
+import { NavMain } from '@/components/nav-main'
+import { NavProjects } from '@/components/nav-projects'
+import { NavSecondary } from '@/components/nav-secondary'
+import { NavUser } from '@/components/nav-user'
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
-	SidebarGroup,
-	SidebarGroupContent,
-	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
-	SidebarMenuItem,
-	SidebarRail
+	SidebarMenuItem
 } from '@/components/ui/sidebar'
 
-// This is sample data.
 const data = {
-	versions: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
+	user: {
+		name: 'shadcn',
+		email: 'm@example.com',
+		avatar: '/avatars/shadcn.jpg'
+	},
 	navMain: [
 		{
-			title: 'Getting Started',
+			title: 'Playground',
 			url: '#',
+			icon: SquareTerminal,
+			isActive: true,
 			items: [
 				{
-					title: 'Installation',
+					title: 'History',
 					url: '#'
 				},
 				{
-					title: 'Project Structure',
+					title: 'Starred',
+					url: '#'
+				},
+				{
+					title: 'Settings',
 					url: '#'
 				}
 			]
 		},
 		{
-			title: 'Building Your Application',
+			title: 'Models',
 			url: '#',
+			icon: Bot,
 			items: [
 				{
-					title: 'Routing',
+					title: 'Genesis',
 					url: '#'
 				},
 				{
-					title: 'Data Fetching',
-					url: '#',
-					isActive: true
-				},
-				{
-					title: 'Rendering',
+					title: 'Explorer',
 					url: '#'
 				},
 				{
-					title: 'Caching',
-					url: '#'
-				},
-				{
-					title: 'Styling',
-					url: '#'
-				},
-				{
-					title: 'Optimizing',
-					url: '#'
-				},
-				{
-					title: 'Configuring',
-					url: '#'
-				},
-				{
-					title: 'Testing',
-					url: '#'
-				},
-				{
-					title: 'Authentication',
-					url: '#'
-				},
-				{
-					title: 'Deploying',
-					url: '#'
-				},
-				{
-					title: 'Upgrading',
-					url: '#'
-				},
-				{
-					title: 'Examples',
+					title: 'Quantum',
 					url: '#'
 				}
 			]
 		},
 		{
-			title: 'API Reference',
+			title: 'Documentation',
 			url: '#',
+			icon: BookOpen,
 			items: [
 				{
-					title: 'Components',
+					title: 'Introduction',
 					url: '#'
 				},
 				{
-					title: 'File Conventions',
+					title: 'Get Started',
 					url: '#'
 				},
 				{
-					title: 'Functions',
+					title: 'Tutorials',
 					url: '#'
 				},
 				{
-					title: 'next.config.js Options',
-					url: '#'
-				},
-				{
-					title: 'CLI',
-					url: '#'
-				},
-				{
-					title: 'Edge Runtime',
+					title: 'Changelog',
 					url: '#'
 				}
 			]
 		},
 		{
-			title: 'Architecture',
+			title: 'Settings',
 			url: '#',
+			icon: Settings2,
 			items: [
 				{
-					title: 'Accessibility',
+					title: 'General',
 					url: '#'
 				},
 				{
-					title: 'Fast Refresh',
+					title: 'Team',
 					url: '#'
 				},
 				{
-					title: 'Next.js Compiler',
+					title: 'Billing',
 					url: '#'
 				},
 				{
-					title: 'Supported Browsers',
-					url: '#'
-				},
-				{
-					title: 'Turbopack',
+					title: 'Limits',
 					url: '#'
 				}
 			]
+		}
+	],
+	navSecondary: [
+		{
+			title: 'Support',
+			url: '#',
+			icon: LifeBuoy
+		},
+		{
+			title: 'Feedback',
+			url: '#',
+			icon: Send
+		}
+	],
+	projects: [
+		{
+			name: 'Design Engineering',
+			url: '#',
+			icon: Frame
+		},
+		{
+			name: 'Sales & Marketing',
+			url: '#',
+			icon: PieChart
+		},
+		{
+			name: 'Travel',
+			url: '#',
+			icon: Map
 		}
 	]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
-		<Sidebar {...props}>
+		<Sidebar variant="inset" {...props}>
 			<SidebarHeader>
-				<p>Send Stack</p>
-			</SidebarHeader>
-			<SidebarContent>
-				<SidebarGroup>
-					<SidebarGroupLabel>Models</SidebarGroupLabel>
-					<SidebarGroupContent>
-						<SidebarMenu>
-							<SidebarMenuItem>
-								<SidebarMenuButton asChild isActive={false}>
-									<a href="/admin/blog">Blog</a>
-								</SidebarMenuButton>
-							</SidebarMenuItem>
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
-			</SidebarContent>
-			<SidebarRail />
-			<SidebarFooter>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton asChild isActive={false}>
-							<a href="/admin/me">Profile</a>
+						<SidebarMenuButton size="lg" asChild>
+							<a href="#">
+								<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+									<Command className="size-4" />
+								</div>
+								<div className="grid flex-1 text-left text-sm leading-tight">
+									<span className="truncate font-semibold">Acme Inc</span>
+									<span className="truncate text-xs">Enterprise</span>
+								</div>
+							</a>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>
+			</SidebarHeader>
+			<SidebarContent>
+				<NavMain items={data.navMain} />
+				<NavProjects projects={data.projects} />
+				<NavSecondary items={data.navSecondary} className="mt-auto" />
+			</SidebarContent>
+			<SidebarFooter>
+				<NavUser user={data.user} />
 			</SidebarFooter>
 		</Sidebar>
 	)
