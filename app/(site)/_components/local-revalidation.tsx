@@ -8,18 +8,17 @@ import { Button } from '@/components/ui/button'
 /** Force a revalidation of the current page you are on, when working locally */
 export const LocalRevalidation = () => {
 	const path = usePathname()
-	const router = useRouter()
 	if (process.env.NODE_ENV !== 'development') {
 		return null
 	}
-
 	return (
 		<Button
 			variant="link"
 			onClick={() => {
 				client.api.revalidate.post({ path })
-				router.refresh()
+				typeof window !== undefined && window.location.reload()
 			}}
+			className="text-muted-foreground"
 		>
 			Revalidate Current Page
 		</Button>

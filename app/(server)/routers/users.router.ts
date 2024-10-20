@@ -50,6 +50,9 @@ export const usersRouter = new Elysia({ prefix })
 			body: usersFrontendSchema
 		}
 	)
+	.get('/signout', async ({ UsersController }) => {
+		await UsersController.signOut()
+	})
 	.patch(
 		'/:id',
 		async ({ UsersController, params: { id }, body }) => {
