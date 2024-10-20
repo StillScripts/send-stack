@@ -2,6 +2,8 @@
 
 The SEND Stack is a modern, full-stack web application built using Bun. It provides a simple and efficient setup for managing Drizzle ORM, including database migrations and model boilerplate generation for both backend and frontend.
 
+*Note - The current setup relies on [Turso](https://turso.tech/) for some free Sqlite databases to use for dev, testing and prod. I've also explored using `bun:sqlite` but this won't play nice when it comes to hosting the site on Vercel. 
+
 ## Getting Started
 
 To get started with the SEND Stack, follow these steps:
