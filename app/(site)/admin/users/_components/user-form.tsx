@@ -1,6 +1,6 @@
 'use client'
 import { useForm } from 'react-hook-form'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 import { typeboxResolver } from '@hookform/resolvers/typebox'
 import { Static } from '@sinclair/typebox'
@@ -13,6 +13,7 @@ import {
 import { client } from '@/app/(site)/client'
 import {
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -37,13 +38,18 @@ export const UserForm = ({
 	user?: User
 	isFirst: boolean
 }) => {
+	const searchParams = useSearchParams()
 	const { handleResponse } = useErrorOrRedirect()
 	const form = useForm<FormFields>({
 		resolver: typeboxResolver(typecheck),
 		defaultValues: user ?? {}
 	})
 
-	const option = isFirst ? 'Create Your Account' : 'Sign In'
+	// Temporary - Enable sign up (without user invites)
+	const forceAccountCreation = searchParams.get('force-create')
+
+	const option =
+		isFirst || forceAccountCreation ? 'Create Your Account' : 'Sign In'
 
 	const onSubmit = async (data: FormFields) => {
 		const payload = data
@@ -78,6 +84,9 @@ export const UserForm = ({
 										{...field}
 									/>
 								</FormControl>
+								<FormDescription>
+									Login with <span className="font-bold">test@example.com</span>
+								</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -96,6 +105,9 @@ export const UserForm = ({
 									/>
 								</FormControl>
 								<FormMessage />
+								<FormDescription>
+									Login with <span className="font-bold">Testing1</span>
+								</FormDescription>
 							</FormItem>
 						)}
 					/>

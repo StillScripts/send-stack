@@ -1,4 +1,7 @@
 import Image from 'next/image'
+import Link from 'next/link'
+
+import { Button } from '@/components/ui/button'
 
 import { client } from './client'
 
@@ -17,7 +20,7 @@ export default async function Home() {
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						Powered By&nbsp;
+						Powered By Bun&nbsp;
 						<Image
 							src="/bun.svg"
 							alt="Vercel Logo"
@@ -28,6 +31,17 @@ export default async function Home() {
 					</a>
 				</div>
 			</div>
+			<div className="mt-24 flex gap-4">
+				<Button variant="outline" asChild>
+					<Link href="https://github.com/StillScripts/send-stack">
+						View Source Code
+					</Link>
+				</Button>
+				<Button asChild>
+					<Link href="/sign-in">Explore Dashboard</Link>
+				</Button>
+			</div>
+
 			<div className="mb-32 mt-24 grid text-center lg:mb-0 lg:mt-32 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left xl:mt-48">
 				{data?.map(framework => (
 					<a
