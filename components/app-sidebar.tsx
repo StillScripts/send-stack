@@ -1,6 +1,8 @@
 'use client'
 
 import * as React from 'react'
+import Link from 'next/link'
+
 import {
 	BookOpen,
 	Bot,
@@ -15,18 +17,21 @@ import {
 } from 'lucide-react'
 
 import { NavMain } from '@/components/nav-main'
-import { NavProjects } from '@/components/nav-projects'
-import { NavSecondary } from '@/components/nav-secondary'
 import { NavUser } from '@/components/nav-user'
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupContent,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem
 } from '@/components/ui/sidebar'
+import { useUser } from '@/lib/auth/user-context'
+
+import { SidebarThemeToggle } from './ui/theme-toggle'
 
 const data = {
 	user: {
@@ -153,13 +158,14 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const { user } = useUser()
 	return (
 		<Sidebar variant="inset" {...props}>
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton size="lg" asChild>
-							<a href="#">
+							<Link href="/">
 								<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
 									<Command className="size-4" />
 								</div>
@@ -167,18 +173,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 									<span className="truncate font-semibold">Acme Inc</span>
 									<span className="truncate text-xs">Enterprise</span>
 								</div>
-							</a>
+							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={data.navMain} />
-				<NavProjects projects={data.projects} />
-				<NavSecondary items={data.navSecondary} className="mt-auto" />
+				<NavMain />
+				<SidebarGroup className="mt-auto">
+					<SidebarGroupContent>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarThemeToggle />
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarGroupContent>
+				</SidebarGroup>
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={data.user} />
+				{user?.id ? (
+					<NavUser user={{ ...user, name: user?.email.split('@')[0] ?? '' }} />
+				) : (
+					<div></div>
+				)}
 			</SidebarFooter>
 		</Sidebar>
 	)

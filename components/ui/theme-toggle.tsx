@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 
 import { Button } from './button'
+import { SidebarMenuButton } from './sidebar'
 
 const SunIcon = ({ className = '' }) => {
 	return (
@@ -65,5 +66,21 @@ export function ThemeToggle() {
 			<MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
 			<span className="sr-only">Toggle theme</span>
 		</Button>
+	)
+}
+
+export function SidebarThemeToggle() {
+	const { theme, setTheme } = useTheme()
+
+	return (
+		<SidebarMenuButton
+			size="sm"
+			onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+		>
+			<SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+			<MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+			<span className="sr-only">Toggle theme</span>
+			<span>{theme === 'light' ? 'Light mode' : 'Dark mode'}</span>
+		</SidebarMenuButton>
 	)
 }
