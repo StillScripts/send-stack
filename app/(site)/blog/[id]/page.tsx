@@ -26,7 +26,7 @@ const EditBlog = async ({ params }: { params: { id: string } }) => {
 	}
 
 	return (
-		<div className="prose mt-16">
+		<div className="prose mt-16 dark:prose-invert">
 			{data.content?.map((element, index) => {
 				switch (element.type) {
 					case 'h1':

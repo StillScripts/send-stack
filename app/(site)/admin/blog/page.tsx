@@ -15,14 +15,14 @@ export default async function BlogsPage() {
 		throw new Error((error.value as string) ?? 'An Error Occurred')
 	}
 	return (
-		<div className="mt-8">
-			<div className="flex flex-wrap justify-center gap-6">
+		<div className="mt-8 px-4">
+			<div className="flex flex-wrap justify-between gap-6">
 				<h1 className="text-center text-3xl font-bold sm:text-4xl">Blogs</h1>
 				<Button variant="outline" asChild>
 					<Link href="/admin/blog/new">Add New Blog</Link>
 				</Button>
 			</div>
-			<div className="mt-8 flex flex-wrap justify-center gap-4">
+			<div className="mt-8 flex flex-wrap gap-4">
 				{data?.map(blog => <BlogCard key={blog.id} blog={blog} />)}
 			</div>
 		</div>

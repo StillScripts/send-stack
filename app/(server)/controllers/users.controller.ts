@@ -1,4 +1,5 @@
 import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
 
 import { eq } from 'drizzle-orm'
 
@@ -81,5 +82,9 @@ export class UsersController extends BaseController<typeof users> {
 		}
 
 		await setSession(foundUser)
+	}
+
+	async signOut() {
+		cookies().delete('session')
 	}
 }

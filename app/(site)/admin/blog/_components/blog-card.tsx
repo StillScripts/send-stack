@@ -21,9 +21,13 @@ export const BlogCard = ({ blog }: { blog: Blog }) => {
 	const isAdmin = pathname.includes('/admin')
 	return (
 		<Card key={blog.id} className="max-w-96">
-			<CardHeader>
-				<Button className="pl-0" asChild variant="link">
-					<Link href={`/blog/${blog.id}`}>
+			<CardHeader className="text-left">
+				<Button asChild variant="link">
+					<Link
+						style={{ justifyContent: 'start' }}
+						className="pl-0"
+						href={`/blog/${blog.id}`}
+					>
 						<CardTitle>{blog.title}</CardTitle>
 					</Link>
 				</Button>

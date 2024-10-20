@@ -1,10 +1,12 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { client } from '@/app/(site)/client'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -23,8 +25,8 @@ import {
 import type { User } from '@/lib/auth/user-context'
 
 export function NavUser({ user }: { user: User }) {
+	const router = useRouter()
 	const { isMobile } = useSidebar()
-
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -77,7 +79,14 @@ export function NavUser({ user }: { user: User }) {
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={async () => {
+								const { error } = await client.api.users.signout.get()
+								if (!error) {
+									router.push('/sign-in')
+								}
+							}}
+						>
 							<LogOut />
 							Log out
 						</DropdownMenuItem>
