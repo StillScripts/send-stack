@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import { Command } from 'lucide-react'
 
@@ -16,14 +17,22 @@ import {
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
-	SidebarMenuItem
+	SidebarMenuItem,
+	useSidebar
 } from '@/components/ui/sidebar'
 import { useUser } from '@/lib/auth/user-context'
 
 import { SidebarThemeToggle } from './ui/theme-toggle'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const pathname = usePathname()
 	const { user } = useUser()
+	const { setOpenMobile } = useSidebar()
+
+	React.useEffect(() => {
+		setOpenMobile(false)
+	}, [setOpenMobile, pathname])
+
 	return (
 		<Sidebar variant="inset" {...props}>
 			<SidebarHeader>
