@@ -5,6 +5,7 @@ export default function SiteLayout({
 }: {
 	children: React.ReactNode
 }) {
+	return children
 	return (
 		<div className="container mx-auto bg-background py-12">
 			<Header />
